@@ -68,7 +68,7 @@ const work = await Promise.all(
       <section class="animate space-y-6">
         <div class="flex flex-wrap gap-y-2 items-center justify-between">
           <h5 class="font-semibold text-black dark:text-white">최근 글</h5>
-          <Link href="/blog" class="text-sm hover:no-underline">
+          <Link href="/blog" underline={false} class="text-sm hover:no-underline">
             모든 글 보기
           </Link>
         </div>
@@ -86,7 +86,7 @@ const work = await Promise.all(
       <section class="animate space-y-6">
         <div class="flex flex-wrap gap-y-2 items-center justify-between">
           <h5 class="font-semibold text-black dark:text-white">경력</h5>
-          <Link href="/work" class="text-sm hover:no-underline">
+          <Link href="/work" underline={false} class="text-sm hover:no-underline">
             모든 경력 보기
           </Link>
         </div>
