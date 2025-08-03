@@ -1,0 +1,28 @@
+---
+import Head from "@components/Head.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import { SITE } from "@consts";
+import { getLocaleFromPath } from "@lib/i18n";
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang={getLocaleFromPath(Astro.url.pathname)}>
+  <head>
+    <Head title={`${title} | ${SITE.NAME}`} description={description} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

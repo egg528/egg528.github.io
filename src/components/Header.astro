@@ -1,0 +1,54 @@
+---
+import Container from "@components/Container.astro";
+import Link from "@components/Link.astro";
+import LanguageSelector from "@components/LanguageSelector.astro";
+import { getLocaleFromPath, createLocalizedUrl } from "@lib/i18n";
+import { SOCIALS } from "@consts";
+
+const { pathname } = Astro.url;
+const locale = getLocaleFromPath(pathname);
+
+function getLocalizedLink(path: string) {
+  return createLocalizedUrl(path, locale);
+}
+---
+
+<header>
+  <Container>
+    <div class="flex flex-wrap items-center justify-between gap-y-2">
+      <Link href={getLocalizedLink("/")} underline={false} class="-ml-2">
+        <img src="/logo.png" alt="Logo" class="h-14 w-14 object-contain" />
+      </Link>
+      <nav class="flex items-center gap-6">
+        <Link
+          href={getLocalizedLink("/blog")}
+          underline={false}
+          class={pathname.includes("/blog")
+            ? "text-black dark:text-white"
+            : "opacity-60 hover:opacity-100"}>Blog</Link
+        >
+        <Link
+          href={getLocalizedLink("/work")}
+          underline={false}
+          class={pathname.includes("/work")
+            ? "text-black dark:text-white"
+            : "opacity-60 hover:opacity-100"}>Work</Link
+        >
+        {
+          SOCIALS.map((social) => (
+            <Link
+              href={social.HREF}
+              external
+              underline={false}
+              class="opacity-60 hover:opacity-100"
+              aria-label={`Visit ${social.NAME}`}
+            >
+              {social.NAME}
+            </Link>
+          ))
+        }
+        <LanguageSelector />
+      </nav>
+    </div>
+  </Container>
+</header>

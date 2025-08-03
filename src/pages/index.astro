@@ -1,0 +1,123 @@
+---
+import { getCollection } from "astro:content";
+import Container from "@components/Container.astro";
+import PageLayout from "@layouts/PageLayout.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import Link from "@components/Link.astro";
+import { dateRange } from "@lib/utils";
+import { SITE, HOME } from "@consts";
+
+import { getBlogEntryLanguage, getWorkEntryLanguage } from "@lib/slug-utils";
+
+const blog = (await getCollection("blog"))
+  .filter((post) => {
+    if (post.data.draft) return false;
+    try {
+      return getBlogEntryLanguage(post) === "ko";
+    } catch {
+      return false;
+    }
+  })
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+
+const allwork = (await getCollection("work"))
+  .filter((work) => {
+    try {
+      return getWorkEntryLanguage(work) === "ko";
+    } catch {
+      return false;
+    }
+  })
+  .sort(
+    (a, b) =>
+      new Date(b.data.dateStart).valueOf() -
+      new Date(a.data.dateStart).valueOf(),
+  )
+  .slice(0, SITE.NUM_WORKS_ON_HOMEPAGE);
+
+const work = await Promise.all(
+  allwork.map(async (item) => {
+    const { Content } = await item.render();
+    return { ...item, Content };
+  }),
+);
+---
+
+<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+  <Container>
+    <h4 class="animate font-semibold text-black dark:text-white">
+      소개 <span class="text-xl">👋🏻</span>
+    </h4>
+    <div class="space-y-16">
+      <section>
+        <article class="space-y-4">
+          <p class="animate">
+            TBU
+            <Link
+              href="https://github.com/egg528"
+              aria-label="Github 링크"
+              external
+            >
+              Github 링크
+            </Link>
+          </p>
+        </article>
+      </section>
+
+      <section class="animate space-y-6">
+        <div class="flex flex-wrap gap-y-2 items-center justify-between">
+          <h5 class="font-semibold text-black dark:text-white">최근 글</h5>
+          <Link href="/blog" class="text-sm hover:no-underline">
+            모든 글 보기
+          </Link>
+        </div>
+        <ul class="flex flex-col gap-4">
+          {
+            blog.map((post) => (
+              <li>
+                <ArrowCard entry={post} />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="animate space-y-6">
+        <div class="flex flex-wrap gap-y-2 items-center justify-between">
+          <h5 class="font-semibold text-black dark:text-white">경력</h5>
+          <Link href="/work" class="text-sm hover:no-underline">
+            모든 경력 보기
+          </Link>
+        </div>
+        <ul class="flex flex-col space-y-4">
+          {
+            work.map((entry) => (
+              <li>
+                <div class="flex items-center justify-between mb-1">
+                  <div class="flex items-center gap-2 font-semibold text-black dark:text-white">
+                    {entry.data.logo && (
+                      <img
+                        src={entry.data.logo}
+                        alt={`${entry.data.company} logo`}
+                        class="w-5 h-5 rounded-sm object-contain"
+                      />
+                    )}
+                    {entry.data.company}
+                  </div>
+                  <div class="text-xs opacity-75 font-mono">
+                    {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+                  </div>
+                </div>
+                <div class="text-sm opacity-75 mb-3">{entry.data.role}</div>
+                <article>
+                  <entry.Content />
+                </article>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </Container>
+</PageLayout>

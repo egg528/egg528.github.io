@@ -1,0 +1,85 @@
+---
+interface Props {
+  lang: "ko" | "en";
+}
+
+const { lang } = Astro.props;
+
+const labels = {
+  ko: {
+    sortByYear: "연도",
+    sortByCategory: "카테고리",
+  },
+  en: {
+    sortByYear: "Year",
+    sortByCategory: "Category",
+  },
+};
+
+const currentLabels = labels[lang];
+---
+
+<div class="sort-toggle">
+  <div
+    class="flex items-center space-x-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1"
+  >
+    <button
+      id="sort-by-year"
+      class="sort-button px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 active"
+      data-sort="year"
+    >
+      {currentLabels.sortByYear}
+    </button>
+    <button
+      id="sort-by-category"
+      class="sort-button px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200"
+      data-sort="category"
+    >
+      {currentLabels.sortByCategory}
+    </button>
+  </div>
+</div>
+
+<style>
+  .sort-button {
+    @apply text-neutral-600 dark:text-neutral-400;
+  }
+
+  .sort-button.active {
+    @apply text-black dark:text-white;
+  }
+
+  .sort-button:hover:not(.active) {
+    @apply text-black dark:text-white;
+  }
+</style>
+
+<script>
+  function initSortToggle() {
+    const sortButtons = document.querySelectorAll(".sort-button");
+    const yearView = document.getElementById("year-view");
+    const categoryView = document.getElementById("category-view");
+
+    if (!sortButtons.length || !yearView || !categoryView) return;
+
+    sortButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const sortType = button.getAttribute("data-sort");
+
+        sortButtons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        if (sortType === "year") {
+          yearView.classList.remove("hidden");
+          categoryView.classList.add("hidden");
+        } else {
+          yearView.classList.add("hidden");
+          categoryView.classList.remove("hidden");
+        }
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initSortToggle);
+  document.addEventListener("astro:page-load", initSortToggle);
+</script>
