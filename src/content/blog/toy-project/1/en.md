@@ -1,5 +1,5 @@
 ---
-title: "[Graduation Project] Financial Statement Analysis and Visualization Website"
+title: "Financial Statement Analysis and Visualization Website"
 description: "A retrospective on the one-year graduation project development journey and technical challenges"
 date: "Jun 06 2021"
 ---
