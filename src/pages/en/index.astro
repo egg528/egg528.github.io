@@ -109,7 +109,7 @@ const work = await Promise.all(
                       <img
                         src={entry.data.logo}
                         alt={`${entry.data.company} logo`}
-                        class="w-5 h-5 rounded-sm object-contain"
+                        class="w-8 h-8 rounded-sm object-contain"
                       />
                     )}
                     {entry.data.company}
@@ -119,7 +119,7 @@ const work = await Promise.all(
                   </div>
                 </div>
                 <div class="text-sm opacity-75 mb-3">{entry.data.role}</div>
-                <article>
+                <article class="text-xs opacity-60">
                   <entry.Content />
                 </article>
               </li>
