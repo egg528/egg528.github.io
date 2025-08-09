@@ -2,25 +2,11 @@
 import { getCollection } from "astro:content";
 import Container from "@components/Container.astro";
 import PageLayout from "@layouts/PageLayout.astro";
-import ArrowCard from "@components/ArrowCard.astro";
-import Link from "@components/Link.astro";
 import { dateRange } from "@lib/utils";
-import { getBlogEntryLanguage, getWorkEntryLanguage } from "@lib/slug-utils";
-import { SITE, HOME } from "@consts";
+import { HOME } from "@consts";
+import { getWorkEntryLanguage } from "@lib/slug-utils";
 
-const blog = (await getCollection("blog"))
-  .filter((post) => {
-    if (post.data.draft) return false;
-    try {
-      return getBlogEntryLanguage(post) === "en";
-    } catch {
-      return false;
-    }
-  })
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
-
-const allwork = (await getCollection("work"))
+const work = (await getCollection("work"))
   .filter((work) => {
     try {
       return getWorkEntryLanguage(work) === "en";
@@ -32,100 +18,174 @@ const allwork = (await getCollection("work"))
     (a, b) =>
       new Date(b.data.dateStart).valueOf() -
       new Date(a.data.dateStart).valueOf(),
-  )
-  .slice(0, SITE.NUM_WORKS_ON_HOMEPAGE);
-
-const work = await Promise.all(
-  allwork.map(async (item) => {
-    const { Content } = await item.render();
-    return { ...item, Content };
-  }),
-);
+  );
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
-    <h4 class="animate font-semibold text-black dark:text-white">
-      About Me <span class="text-xl">👋🏻</span>
-    </h4>
-    <div class="space-y-16">
+    <div>
       <section>
-        <article class="space-y-4">
-          <p class="animate">
-            TBU
-            <Link
-              href="https://github.com/egg528"
-              aria-label="Github link"
-              external
-            >
-              Github link
-            </Link>
-          </p>
-        </article>
-      </section>
-
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold text-black dark:text-white">Latest posts</h5>
-          <Link
-            href="/en/blog"
-            underline={false}
-            class="text-sm hover:no-underline"
-          >
-            See all posts
-          </Link>
-        </div>
-        <ul class="flex flex-col gap-4">
-          {
-            blog.map((post) => (
+        <article class="space-y-8">
+          <div class="animate space-y-3">
+            <h6 class="text-base font-medium opacity-80">
+              Hello, I'm Woosuk Kwon.
+            </h6>
+            <ul class="text-sm space-y-2 opacity-75">
               <li>
-                <ArrowCard entry={post} />
+                I'm gaining experience as a Backend Developer, primarily working
+                with Java and Ruby.
               </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold text-black dark:text-white">
-            Work Experience
-          </h5>
-          <Link
-            href="/en/work"
-            underline={false}
-            class="text-sm hover:no-underline"
-          >
-            See all work
-          </Link>
-        </div>
-        <ul class="flex flex-col space-y-4">
-          {
-            work.map((entry) => (
               <li>
-                <div class="flex items-center justify-between mb-1">
-                  <div class="flex items-center gap-2 font-semibold text-black dark:text-white">
+                While not my main focus, I've also worked with Frontend when
+                needed.
+              </li>
+            </ul>
+          </div>
+
+          <div class="animate space-y-3">
+            <h6 class="text-base font-medium opacity-80">Work</h6>
+            <ul class="text-sm space-y-2 opacity-75 list-disc list-inside">
+              {
+                work.map((entry) => (
+                  <li class="flex items-center gap-2">
                     {entry.data.logo && (
                       <img
                         src={entry.data.logo}
                         alt={`${entry.data.company} logo`}
-                        class="w-8 h-8 rounded-sm object-contain"
+                        class="w-4 h-4 object-contain flex-shrink-0 -ml-6 mr-2"
+                        loading="lazy"
                       />
                     )}
-                    {entry.data.company}
-                  </div>
-                  <div class="text-xs opacity-75 font-mono">
-                    {dateRange(entry.data.dateStart, entry.data.dateEnd)}
-                  </div>
-                </div>
-                <div class="text-sm opacity-75 mb-3">{entry.data.role}</div>
-                <article class="text-xs opacity-60">
-                  <entry.Content />
-                </article>
+                    <span class="flex-1">
+                      <strong class="text-xs">{entry.data.company}</strong> -{" "}
+                      {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="animate space-y-3">
+            <h6 class="text-base font-medium opacity-80">
+              Activities Outside Work
+            </h6>
+            <ul class="text-sm space-y-3 opacity-75">
+              <li>
+                <strong class="text-xs">Gmarket Hackathon 1st Place</strong>
+                <span class="text-xs"
+                  >- Developed a Slack App for matching employees for
+                  meals/coffee</span
+                >
+                <ul class="ml-2 mt-1">
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://www.etnews.com/20221227000212"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Gmarket Hackathon 1st Place G-Restaurant "Joined for the
+                      event hoodie, ended up winning"</a
+                    >
+                  </li>
+                </ul>
               </li>
-            ))
-          }
-        </ul>
+              <li>
+                <strong class="text-xs">Gmarket Tech Editor</strong>
+                <span class="text-xs"
+                  >- Technical blog review and article contribution</span
+                >
+                <ul class="ml-2 mt-1 space-y-1">
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://dev.gmarket.com/36"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >How Should Objects Be Identified and Implemented?</a
+                    >
+                  </li>
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://dev.gmarket.com/45"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Where and How Should Authentication/Authorization Be
+                      Implemented?</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong class="text-xs">Gmarket Seat Reservation System</strong>
+                <span class="text-xs"
+                  >- Started as a toy project, used company-wide for 1 year</span
+                >
+              </li>
+              <li>
+                <strong class="text-xs">DeveloperMakers 14th Generation</strong>
+                <span class="text-xs"
+                  >- Home server setup and admin development</span
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="animate space-y-3">
+            <h6 class="text-base font-medium opacity-80">
+              Open Source Contributions
+            </h6>
+            <ul class="text-sm space-y-3 opacity-75">
+              <li>
+                <strong class="text-xs">Rails</strong>
+                <span class="text-xs"
+                  >- Added HTTP Cache-Control request directive support</span
+                >
+                <ul class="ml-2 mt-1">
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://github.com/rails/rails/pull/55033"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Add support for HTTP Cache-Control request directives</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong class="text-xs">Grafana Dashboard Templates</strong>
+                <span class="text-xs"
+                  >- Created 3 templates for Spring Boot monitoring (2,383 total
+                  downloads)</span
+                >
+                <ul class="ml-2 mt-1 space-y-1">
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://grafana.com/grafana/dashboards/21308-http/"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Spring Boot HTTP (1,411 downloads)</a
+                    >
+                  </li>
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://grafana.com/grafana/dashboards/21303-cache/"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Spring Boot Cache (490 downloads)</a
+                    >
+                  </li>
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://grafana.com/grafana/dashboards/21307-circuit-breaker/"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Spring Boot Circuit Breaker (482 downloads)</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </article>
       </section>
     </div>
   </Container>
