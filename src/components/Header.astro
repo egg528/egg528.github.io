@@ -27,13 +27,6 @@ function getLocalizedLink(path: string) {
             ? "text-black dark:text-white"
             : "opacity-60 hover:opacity-100"}>Blog</Link
         >
-        <Link
-          href={getLocalizedLink("/work")}
-          underline={false}
-          class={pathname.includes("/work")
-            ? "text-black dark:text-white"
-            : "opacity-60 hover:opacity-100"}>Work</Link
-        >
         {
           SOCIALS.map((social) => (
             <Link
