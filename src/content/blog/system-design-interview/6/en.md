@@ -50,7 +50,6 @@ Two improvements can be considered to overcome these constraints:
 
 However, even with these improvements, single server limitations cannot be overcome. A distributed key-value store must be built.
 
-![Single Server Limitations](./diagram-2.webp)
 
 <br></br>
 
@@ -79,7 +78,6 @@ Since network failures are inevitable, systems must be designed to tolerate part
 
 **CA System**: Key-value store supporting consistency and availability. Doesn't support partition tolerance. Since network failures are inevitable, distributed systems must be designed to handle partition problems. Therefore, CA systems don't actually exist.
 
-![CP vs AP](./diagram-4.webp)
 
 <br></br>
 
@@ -111,7 +109,6 @@ Consistent hashing covered in Chapter 5 can satisfy both requirements.
 - Place keys on the same ring
 - The server where a key is stored is the first server encountered when searching clockwise from the key's position
 
-![Data Partitioning](./diagram-5.webp)
 
 ### Data Replication
 
@@ -120,7 +117,6 @@ To ensure high availability and reliability, data needs to be asynchronously rep
 **Method for selecting N servers:**
 After placing a key on the hash ring, traverse the ring clockwise from that point and store data replicas on the first N servers encountered. For example, with N=3, key0 is stored on s1, s2, s3.
 
-![Data Replication](./diagram-6.webp)
 
 **Considerations when using virtual nodes:**
 When using virtual nodes, the number of actual physical servers corresponding to the selected N nodes may be less than N. To avoid this problem, ensure the same physical server isn't selected multiple times when choosing nodes.
@@ -134,7 +130,6 @@ Data replicated across multiple nodes must be properly synchronized. The Quorum 
 - **W = Write quorum. For write operation to be considered successful, must receive write success responses from at least W servers**
 - **R = Read quorum. For read operation to be considered successful, must receive responses from at least R servers**
 
-![Quorum Consensus](./diagram-7.webp)
 
 **Meaning of W=1**: Write operation considered successful when data is written to just one server
 **Meaning of W=N**: Write operation considered successful only when write succeeds on all servers
@@ -165,7 +160,6 @@ Replicating data increases availability but raises the possibility of consistenc
 
 **Vector clocks** are techniques that express versions using [server, version] pairs.
 
-![Vector Clocks](./diagram-8.webp)
 
 **Vector clock operation example:**
 1. Client writes D1 to server Sx. Vector clock is D1([Sx, 1])
@@ -179,7 +173,6 @@ Replicating data increases availability but raises the possibility of consistenc
 
 In practice, this problem is solved by recording only the N most frequently used servers.
 
-![Vector Clock Conflict Resolution](./diagram-9.webp)
 
 ### Failure Handling
 
@@ -191,7 +184,6 @@ In distributed systems, we don't immediately consider server A failed just becau
 
 **Gossip protocol** can reduce time needed for failure detection.
 
-![Gossip Protocol](./diagram-10.webp)
 
 **Gossip protocol operations:**
 - Each node maintains a membership list. Membership list is a list of member ID and heartbeat counter pairs
@@ -206,13 +198,11 @@ In distributed systems, we don't immediately consider server A failed just becau
 
 When requests to failed servers due to network or server problems cannot be processed, other servers temporarily take over that role. The procedure of batch-applying changes when failed servers recover to preserve data consistency is called **hinted handoff**.
 
-![Hinted Handoff](./diagram-11.webp)
 
 #### Handling Permanent Failures
 
 Hinted handoff technique cannot handle permanent failures. To detect broken consistency between replicas and reduce amount of transferred data, **Merkle trees** are used.
 
-![Merkle Tree](./diagram-12.webp)
 
 **Merkle tree characteristics:**
 - Each node stores hash of values in child nodes, or hash values calculated from child node labels
@@ -225,7 +215,6 @@ Hinted handoff technique cannot handle permanent failures. To detect broken cons
 
 Let's look at key-value store architecture based on all techniques discussed so far.
 
-![System Architecture](./diagram-13.webp)
 
 **Main characteristics:**
 - Clients communicate with two simple APIs provided by key-value store: get(key) and put(key, value)
@@ -237,13 +226,11 @@ Let's look at key-value store architecture based on all techniques discussed so 
 
 Each node must support all the following functions:
 
-![Node Functions](./diagram-14.webp)
 
 ### Write Path
 
 Let's see what happens when write requests reach specific nodes.
 
-![Write Path](./diagram-15.webp)
 
 1. Write request is recorded in commit log file
 2. Data is written to memory cache
@@ -253,7 +240,6 @@ Let's see what happens when write requests reach specific nodes.
 
 Nodes receiving read requests first check if data is in memory cache. If so, that data is returned to client as shown in the figure.
 
-![Read Path](./diagram-16.webp)
 
 When data is not in memory, it must be retrieved from disk. Bloom filters are commonly used to efficiently find which SSTable contains the target key.
 

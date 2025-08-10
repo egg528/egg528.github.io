@@ -62,13 +62,11 @@ The server where a key is stored is the first server encountered when searching 
 
 ### Adding Servers
 
-![Adding Servers](./diagram-5.webp)
 
 When a new server 4 is added, only key0 is redistributed to server 4. key1, key2, and key3 remain on the same servers.
 
 ### Removing Servers
 
-![Removing Servers](./diagram-6.webp)
 
 When server 1 is deleted, only key1 is redistributed to server 2. Other keys are not affected.
 
@@ -87,13 +85,11 @@ This approach has two problems:
 
 ### First Problem: It's impossible to keep partition sizes uniform when servers are added or removed
 
-![Partition Size Problem](./diagram-7.webp)
 
 When servers 1 and 3 are deleted from the hash ring, only servers 0 and 2 remain. key0 and key1 are handled by server 0, while key2 and key3 are handled by server 2. Server 0 handles 50% of the entire hash space, and server 2 handles the remaining 50%.
 
 ### Second Problem: It's difficult to achieve uniform key distribution
 
-![Key Distribution Problem](./diagram-8.webp)
 
 If servers are not uniformly distributed on the hash ring, some servers may be allocated very small hash spaces while others get very large hash spaces.
 
@@ -107,13 +103,11 @@ A technique called virtual nodes or replicas is used to solve this problem.
 
 There can be multiple nodes pointing to actual nodes or servers, and these are called virtual nodes.
 
-![Virtual Nodes](./diagram-9.webp)
 
 In the above figure, servers 0 and 1 each have 3 virtual nodes. The number 3 is arbitrary; much larger values are used in actual systems. Instead of using just s0 to place server 0 on the ring, we use three virtual nodes: s0_0, s0_1, s0_2. Similarly, when placing server 1 on the ring, we use s1_0, s1_1, s1_2.
 
 Each server must manage multiple partitions, not just one.
 
-![Virtual Node Key Placement](./diagram-10.webp)
 
 The first virtual node encountered when searching clockwise from a key's position determines the server where that key will be stored. In the above figure, to find the server where k0 is stored, we search clockwise from k0's position and find the first virtual node s1_1. Therefore, k0 is stored on server 1, which s1_1 represents.
 
@@ -131,13 +125,11 @@ When servers are added or removed, some data must be redistributed. Let's find o
 
 ### Adding Servers
 
-![Key Redistribution When Adding Servers](./diagram-11.webp)
 
 Let's say new server 4 is added at s4. The range of keys affected by this change is from s4 (newly added node) to the first server in the counterclockwise direction, s3. That is, keys between s3 and s4 need to be redistributed to server 4.
 
 ### Removing Servers
 
-![Key Redistribution When Removing Servers](./diagram-12.webp)
 
 When server 1 (s1) is deleted, keys between s1 (deleted node) and the first server in the counterclockwise direction, s0, need to be redistributed to s2.
 
