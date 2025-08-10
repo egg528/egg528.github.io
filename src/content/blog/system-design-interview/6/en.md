@@ -62,7 +62,6 @@ Distributed key-value stores are also called distributed hash tables. When desig
 
 The CAP theorem states that it's impossible to design a distributed system that simultaneously satisfies all three requirements: Consistency, Availability, and Partition tolerance.
 
-![CAP Theorem](./diagram-3.webp)
 
 **Consistency**: All clients accessing the distributed system should see the same data regardless of which node they connect to.
 

@@ -70,7 +70,6 @@ High availability refers to a system's ability to operate continuously for exten
 - **99.99% = 52.6 minutes downtime per year**
 - **99.999% = 5.3 minutes downtime per year**
 
-![Availability Numbers and Allowed Downtime](./diagram-3.webp)
 
 ### SLA (Service Level Agreement)
 Most services provide SLA between 99% and 100%. Major providers like Amazon, Google, and Microsoft offer SLA of 99.9% or higher.
@@ -103,7 +102,6 @@ Most services provide SLA between 99% and 100%. Major providers like Amazon, Goo
 - Media storage: 150 million × 2 × 10% × 1MB = 30TB/day
 - 5-year media storage requirement: 30TB × 365 × 5 ≈ 55PB
 
-![Twitter System Estimation](./diagram-4.webp)
 
 <br></br>
 

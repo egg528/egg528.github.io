@@ -39,7 +39,6 @@ By bending this hash space and connecting both ends, we create a hash ring.
 
 Using hash function f, we can map server IPs or names to some position on this ring.
 
-![Server Hash](./diagram-3.webp)
 
 In the above figure, we've placed 4 servers on the hash ring:
 - Server 0: f("Server0") = s0
@@ -51,7 +50,6 @@ In the above figure, we've placed 4 servers on the hash ring:
 
 Keys are also placed on the hash ring using the same hash function.
 
-![Key Hash](./diagram-4.webp)
 
 ### Server Lookup
 

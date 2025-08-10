@@ -39,7 +39,6 @@ draft: false
 - Web servers read user data from slave databases.
 - Web servers send data modification operations to the master database.
 
-![System Design Diagram](./diagram-1.webp)
 
 <br></br>
 
@@ -73,7 +72,6 @@ draft: false
 - CDN failure response plan: You must consider how websites/applications should behave when the CDN itself fails
 - Content invalidation: Even content that hasn't expired yet can be removed from CDN using one of the following methods
 
-![CDN Operation](./diagram-2.webp)
 
 <br></br>
 
@@ -103,7 +101,6 @@ draft: false
 - Data synchronization: If each data center uses separate databases, even when failures are automatically recovered and traffic is redirected to another database, the target data center might not have the required data
 - Testing and deployment: When systems are configured to use multiple data centers, it's important to test websites or applications from multiple locations
 
-![Multi-Data Center Architecture](./diagram-3.webp)
 
 <br></br>
 
@@ -153,7 +150,6 @@ draft: false
 - Sharding key is also called partition key.
 - When choosing a sharding key, the most important thing is to enable even data distribution.
 
-![Sharding Architecture](./diagram-4.webp)
 
 ### Problems to Solve When Introducing Sharding
 - Data resharding: When data becomes too large for a single shard to handle

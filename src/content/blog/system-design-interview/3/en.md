@@ -11,7 +11,6 @@ System design interviews simulate the process where two colleagues collaborate t
 
 ## 4-Step Approach for Effective Interviews
 
-![System Design Interview 4 Steps](./diagram-1.webp)
 
 ### Step 1: Understand the Problem and Establish Design Scope
 
@@ -48,7 +47,6 @@ Present an initial blueprint of your design and get feedback from the interviewe
 - Data model including user and message tables
 - High-level diagram showing the overall system
 
-![High-Level Design](./diagram-2.webp)
 
 **Tips for Using Whiteboard or Paper:**
 - Stand or sit where you can face the interviewer while talking
@@ -81,7 +79,6 @@ Suggest directions that the interviewer might want to discuss further.
 - **Operational Issues**: How would you collect metrics? What about logs?
 - **Next Scale**: How would you scale the current design to handle a million users?
 
-![Wrap-Up Phase](./diagram-3.webp)
 
 <br></br>
 
@@ -112,7 +109,6 @@ Recommended time allocation for a 45-minute interview:
 - **Step 3 Detailed Design**: 10-25 minutes
 - **Step 4 Wrap-Up**: 3-5 minutes
 
-![Time Allocation](./diagram-4.webp)
 
 <br></br>
 

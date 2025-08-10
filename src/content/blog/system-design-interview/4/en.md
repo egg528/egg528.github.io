@@ -11,7 +11,6 @@ A rate limiter is a device used to control the rate of traffic sent by a client 
 
 ## Why Use a Rate Limiter
 
-![Need for Rate Limiter](./diagram-1.webp)
 
 ### Main Reasons
 - **Prevent resource starvation from DoS attacks**: Whether intentional or not, Twitter limits users to 300 tweets per hour.
@@ -46,7 +45,6 @@ There are multiple algorithms for implementing rate limiters, each with unique a
 
 ### Where to Place the Rate Limiter
 
-![Rate Limiter Placement](./diagram-2.webp)
 
 **Client-Side Implementation**
 - Clients are generally unreliable, so rate limiting cannot be reliably enforced
@@ -62,7 +60,6 @@ There are multiple algorithms for implementing rate limiters, each with unique a
 
 #### 1. Token Bucket Algorithm
 
-![Token Bucket Algorithm](./diagram-3.webp)
 
 **How it Works:**
 - Assume there's a container with specified capacity
@@ -86,7 +83,6 @@ There are multiple algorithms for implementing rate limiters, each with unique a
 
 #### 2. Leaking Bucket Algorithm
 
-![Leaking Bucket Algorithm](./diagram-4.webp)
 
 **How it Works:**
 - Similar to token bucket algorithm, but request processing rate is fixed
@@ -139,7 +135,6 @@ There are multiple algorithms for implementing rate limiters, each with unique a
 
 #### 5. Sliding Window Counter Algorithm
 
-![Sliding Window Counter Algorithm](./diagram-5.webp)
 
 **How it Works:**
 - Combines fixed window counter and sliding window log
@@ -154,7 +149,6 @@ There are multiple algorithms for implementing rate limiters, each with unique a
 
 ### High-Level Architecture
 
-![Rate Limiter Architecture](./diagram-6.webp)
 
 The basic idea of rate limiting algorithms is simple:
 - Maintain a counter that tracks how many requests have been received
@@ -206,7 +200,6 @@ Implementing rate limiters in distributed environments requires solving two diff
 
 #### Race Condition
 
-![Race Condition](./diagram-7.webp)
 
 Rate limiters work roughly as follows:
 1. Read the counter value from Redis
@@ -217,7 +210,6 @@ Race conditions are a well-known problem. The most widely known solution is lock
 
 #### Synchronization Issues
 
-![Synchronization Issues](./diagram-8.webp)
 
 Synchronization issues can appear when using multiple rate limiter servers. One solution is using sticky sessions to always send requests from the same client to the same rate limiter. However, this approach is neither scalable nor flexible.
 
