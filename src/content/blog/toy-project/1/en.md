@@ -6,6 +6,8 @@ date: "Jun 06 2021"
 
 This Wednesday (6/2), with the conclusion of the exhibition, I put the final period on a graduation project that had been ongoing for a year. Looking back, I learned so much over the past year, and my graduation project was at the center of it all. Of course, I learned a lot technically and felt a sense of achievement, but **the excitement, frustration, anticipation, bewilderment, and pride I felt in the process of setting goals and working to achieve them left an even greater impression.** Not wanting to let this lingering feeling just pass by, I'd like to record this past year's journey in a long post.
 
+<br></br>
+
 ## 4 Months into Computer Science Classes, Taking on the Graduation Project Challenge
 
 After completing my first semester as a double major in the School of Software in the first semester of my junior year in 2020, I welcomed summer vacation. In my first semester as a double major, I was so busy learning Java, the language used in the Data Structures course, that I barely had time to focus on the actual data structures. Computer Architecture and Linear Algebra also felt challenging. On top of this, personal difficulties made it a struggle to complete the semester.
@@ -27,6 +29,8 @@ Issue (2) wasn't a major problem either, as I had decided to participate as an i
 The real challenge was (3). Contrary to my expectation of easy acceptance, I received about 5 rejections. Most professors emphasized collaboration through graduation projects and couldn't accept individual teams. As I continued searching for a professor, the application deadline approached. The administrative office mentioned that without professor approval, application would be difficult, but I didn't want to miss this good opportunity. Eventually, I called all the professors I hadn't contacted yet, as there wasn't time for emails. While I couldn't reach most professors, I connected with Professor Scott, who became my advisor for the entire year.
 
 Professor Scott is truly someone I'm grateful for. When I explained over the phone that other professors had rejected me for being an individual team and briefly described the software I wanted to build, he responded with a very enthusiastic "That sounds great to me." His response was so enthusiastic that I was momentarily speechless, not knowing what to say next. Later, after the first semester, Professor Scott became the dean and had a busy schedule, but he continued to show interest in the project and always provided honest feedback.
+
+<br></br>
 
 ## Computer Capstone Design 1: Topic Selection, Interim Presentation + Technology Learning
 
@@ -93,6 +97,8 @@ At the time, I was learning about development processes, integration strategies,
 **Mid-term Presentation Video:**
 [Graduation Project Mid-term Presentation - Financial Statement Data Processing and Analysis Visualization Website for Individual Investors](https://www.youtube.com/watch?v=PR4RI2n3VL8)
 
+<br></br>
+
 ## Development Begins!
 
 ![System Architecture Diagram](./diagram-architecture.webp)
@@ -111,6 +117,8 @@ Stock price data is fetched from Naver Finance every day at 5 PM and loaded into
 Before starting development, the first thing I conceptualized was the database schema. With Django, since tables are automatically created when you make models, there was no need to create a detailed schema. However, to clarify what data was needed to develop the planned features and to draw the big picture of the project, I created the schema below. It was only after going through this work that it became clear how to implement which features.
 
 ![Database Schema](./screenshot-db-schema.webp)
+
+<br></br>
 
 ## Feature Introduction
 
@@ -147,6 +155,8 @@ Since the company detail page has the most features, it would be better to organ
 - Company search functionality
 - My companies management
 - Profile management
+
+<br></br>
 
 ## Challenges Encountered
 
@@ -207,6 +217,8 @@ While conducting correlation analysis using financial data and stock price data 
 Applied methodology to solve the matching problem between financial data (4 points per year) and stock price data (300 points per year).
 
 > **Reference Material**: [Analysis of Financial Statement Disclosure Timing and Stock Price Movements](https://m.blog.naver.com/sehyunfa/221672212122)
+
+<br></br>
 
 ## Concluding the Graduation Project...
 
