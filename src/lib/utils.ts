@@ -21,7 +21,7 @@ export function readingTime(html: string) {
 }
 
 export function dateRange(startDate: Date, endDate?: Date | string): string {
-  const startMonth = String(startDate.getMonth() + 1).padStart(2, '0');
+  const startMonth = String(startDate.getMonth() + 1).padStart(2, "0");
   const startYear = startDate.getFullYear().toString();
   let endMonth;
   let endYear;
@@ -31,10 +31,10 @@ export function dateRange(startDate: Date, endDate?: Date | string): string {
       endMonth = "";
       endYear = endDate;
     } else {
-      endMonth = String(endDate.getMonth() + 1).padStart(2, '0');
+      endMonth = String(endDate.getMonth() + 1).padStart(2, "0");
       endYear = endDate.getFullYear().toString();
     }
   }
 
-  return `${startYear}.${startMonth} - ${endYear}${endMonth ? '.' + endMonth : ''}`;
+  return `${startYear}.${startMonth} - ${endYear}${endMonth ? "." + endMonth : ""}`;
 }

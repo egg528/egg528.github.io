@@ -8,7 +8,7 @@ export interface BlogSlugInfo {
 }
 
 export function parseBlogSlug(slug: string): BlogSlugInfo | null {
-  const parts = slug.split('/');
+  const parts = slug.split("/");
   
   if (parts.length === 3) {
     const [category, idStr, filename] = parts;
@@ -66,7 +66,7 @@ export interface WorkSlugInfo {
 }
 
 export function parseWorkSlug(slug: string): WorkSlugInfo | null {
-  const parts = slug.split('/');
+  const parts = slug.split("/");
   
   if (parts.length === 2) {
     const [company, filename] = parts;

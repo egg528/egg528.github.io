@@ -2,6 +2,10 @@ export const CATEGORIES = {
   "toy-project": {
     ko: "토이 프로젝트",
     en: "Toy Project"
+  },
+  "book": {
+    ko: "책",
+    en: "Book"
   }
 } as const;
 

@@ -37,7 +37,7 @@ First paragraph content...
 Content continues...
 ```
 
-**CRITICAL RULE**: Only H2 headings get `<br></br>` tag directly above them. H3 and H4 headings use natural markdown spacing.
+**CRITICAL RULE**: Only H2 headings get `<br></br>` tag directly above them. H3 and H4 headings use natural markdown spacing. First H2 heading at the start of content does not need `<br></br>`.
 
 **Section Title Categories:**
 - Projects, overviews, launches, beginnings
@@ -69,7 +69,7 @@ Content under subsection - no <br></br> needed.
 ```
 
 **Strict Line Break Rules:**
-- **H2 headings ONLY**: Place `<br></br>` directly above every H2 heading
+- **H2 headings ONLY**: Place `<br></br>` directly above H2 headings (except first one)
 - **H3/H4 headings**: Use natural markdown spacing (blank lines)
 - **Regular paragraphs**: Single blank line separation
 - **Never use**: `<br></br>` within paragraphs or around H3/H4 headings
@@ -161,6 +161,8 @@ const processData = ({ name, age }) => {
 ## Content Transformation Rules
 
 ### External Content Conversion Protocol
+**CRITICAL RULE**: NEVER summarize, modify, or alter the original content's meaning, information, or details. Preserve ALL original content exactly as written.
+
 When converting external blog content to Astro Nano format, apply these transformations:
 
 **Heading Structure Conversion:**
@@ -207,14 +209,15 @@ Before completing any markdown optimization, verify:
 ## Execution Protocol
 
 ### Step-by-Step Optimization Process
-1. **Content Analysis**: Examine existing structure and identify improvement areas
-2. **Heading Restructure**: Apply H2-H4 hierarchy with `<br></br>` ONLY above H2 headings
-3. **Spacing Application**: Add `<br></br>` directly above every H2 heading
-4. **List Standardization**: Convert to `-` bullets, add bold emphasis where needed
-5. **Code Enhancement**: Add language tags, include Korean comments
-6. **Table Refinement**: Align pipes, improve readability
-7. **Image Processing**: Convert to relative paths, add Korean alt text
-8. **Final Validation**: Ensure ONLY H2 headings have `<br></br>` above them
+1. **Content Preservation**: Keep ALL original content exactly as written - NO summarizing or modifications
+2. **Content Analysis**: Examine existing structure and identify improvement areas
+3. **Heading Restructure**: Apply H2-H4 hierarchy with `<br></br>` ONLY above H2 headings (except first one)
+4. **Spacing Application**: Add `<br></br>` directly above H2 headings (skip first H2)
+5. **List Standardization**: Convert to `-` bullets, add bold emphasis where needed
+6. **Code Enhancement**: Add language tags, include Korean comments
+7. **Table Refinement**: Align pipes, improve readability
+8. **Image Processing**: Convert to relative paths, add Korean alt text
+9. **Final Validation**: Ensure ONLY H2 headings have `<br></br>` above them (except first)
 
 ### Advanced Features (Use Selectively)
 
