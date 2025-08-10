@@ -14,6 +14,10 @@ export const CATEGORIES = {
   "clean-architecture": {
     ko: "만들면서 배우는 클린 아키텍처",
     en: "Clean Architecture"
+  },
+  "system-design-interview": {
+    ko: "가상 면접 사례로 배우는 대규모 시스템 설계 기초 1",
+    en: "System Design Interview 1"
   }
 } as const;
 
