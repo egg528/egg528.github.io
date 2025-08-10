@@ -1,5 +1,5 @@
 ---
-title: "Book Review: The Cafe at the End of the World"
+title: "[Book] The Cafe at the End of the World"
 description: "A reflection on finding life's meaning through three profound questions encountered at a mysterious cafe"
 date: "2024-10-01"
 draft: false

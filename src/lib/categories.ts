@@ -6,6 +6,14 @@ export const CATEGORIES = {
   "book": {
     ko: "책",
     en: "Book"
+  },
+  "data-oriented-programming": {
+    ko: "데이터 지향 프로그래밍",
+    en: "Data-Oriented Programming"
+  },
+  "clean-architecture": {
+    ko: "만들면서 배우는 클린 아키텍처",
+    en: "Clean Architecture"
   }
 } as const;
 
