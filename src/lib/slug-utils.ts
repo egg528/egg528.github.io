@@ -58,39 +58,3 @@ export function getBlogEntryCategory(entry: CollectionEntry<"blog">): string {
   }
   return slugInfo.category;
 }
-
-// Work collection utilities
-export interface WorkSlugInfo {
-  company: string;
-  language: Language;
-}
-
-export function parseWorkSlug(slug: string): WorkSlugInfo | null {
-  const parts = slug.split("/");
-  
-  if (parts.length === 2) {
-    const [company, filename] = parts;
-    const language = getLanguageFromFilename(filename);
-    if (!language) return null;
-    
-    return { company, language };
-  }
-  
-  return null;
-}
-
-export function getWorkEntryLanguage(entry: CollectionEntry<"work">): Language {
-  const slugInfo = parseWorkSlug(entry.slug);
-  if (!slugInfo) {
-    throw new Error(`Cannot determine language for work entry: ${entry.slug}`);
-  }
-  return slugInfo.language;
-}
-
-export function getWorkEntryCompany(entry: CollectionEntry<"work">): string {
-  const slugInfo = parseWorkSlug(entry.slug);
-  if (!slugInfo) {
-    throw new Error(`Cannot determine company for work entry: ${entry.slug}`);
-  }
-  return slugInfo.company;
-}

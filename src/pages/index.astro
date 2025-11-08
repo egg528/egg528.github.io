@@ -1,24 +1,23 @@
 ---
-import { getCollection } from "astro:content";
 import Container from "@components/Container.astro";
 import PageLayout from "@layouts/PageLayout.astro";
 import { dateRange } from "@lib/utils";
 import { HOME } from "@consts";
-import { getWorkEntryLanguage } from "@lib/slug-utils";
 
-const work = (await getCollection("work"))
-  .filter((work) => {
-    try {
-      return getWorkEntryLanguage(work) === "ko";
-    } catch {
-      return false;
-    }
-  })
-  .sort(
-    (a, b) =>
-      new Date(b.data.dateStart).valueOf() -
-      new Date(a.data.dateStart).valueOf(),
-  );
+const workExperience = [
+  {
+    company: "당근",
+    logo: "/company-logos/karrot.png",
+    dateStart: new Date("2024-09-29"),
+    dateEnd: "현재"
+  },
+  {
+    company: "G마켓",
+    logo: "/company-logos/gmarket.png",
+    dateStart: new Date("2022-01-29"),
+    dateEnd: new Date("2024-09-01")
+  }
+];
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
@@ -43,19 +42,19 @@ const work = (await getCollection("work"))
             <h6 class="text-base font-medium opacity-80">경력</h6>
             <ul class="text-sm space-y-2 opacity-75 list-disc list-inside">
               {
-                work.map((entry) => (
+                workExperience.map((entry) => (
                   <li class="flex items-center gap-2">
-                    {entry.data.logo && (
+                    {entry.logo && (
                       <img
-                        src={entry.data.logo}
-                        alt={`${entry.data.company} logo`}
+                        src={entry.logo}
+                        alt={`${entry.company} logo`}
                         class="w-4 h-4 object-contain flex-shrink-0 -ml-6 mr-2"
                         loading="lazy"
                       />
                     )}
                     <span class="flex-1">
-                      <strong class="text-xs">{entry.data.company}</strong> -{" "}
-                      {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+                      <strong class="text-xs">{entry.company}</strong> -{" "}
+                      {dateRange(entry.dateStart, entry.dateEnd)}
                     </span>
                   </li>
                 ))
