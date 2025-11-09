@@ -7,21 +7,22 @@ export interface BlogSlugInfo {
   language: Language;
 }
 
-export function parseBlogSlug(slug: string): BlogSlugInfo | null {
+// Generic slug parsing (works for both blog and til)
+function parseCollectionSlug(slug: string): BlogSlugInfo | null {
   const parts = slug.split("/");
-  
+
   if (parts.length === 3) {
     const [category, idStr, filename] = parts;
     const id = parseInt(idStr, 10);
-    
+
     if (isNaN(id)) return null;
-    
+
     const language = getLanguageFromFilename(filename);
     if (!language) return null;
-    
+
     return { category, id, language };
   }
-  
+
   return null;
 }
 
@@ -31,8 +32,17 @@ export function getLanguageFromFilename(filename: string): Language | null {
   return null;
 }
 
-export function createBlogSlug(category: string, id: number): string {
+function createCollectionSlug(category: string, id: number): string {
   return `${category}/${id}`;
+}
+
+// Blog-specific functions
+export function parseBlogSlug(slug: string): BlogSlugInfo | null {
+  return parseCollectionSlug(slug);
+}
+
+export function createBlogSlug(category: string, id: number): string {
+  return createCollectionSlug(category, id);
 }
 
 export function getCollectionSlug(entry: CollectionEntry<"blog">): string {
@@ -55,6 +65,39 @@ export function getBlogEntryCategory(entry: CollectionEntry<"blog">): string {
   const slugInfo = parseBlogSlug(entry.slug);
   if (!slugInfo) {
     throw new Error(`Cannot determine category for blog entry: ${entry.slug}`);
+  }
+  return slugInfo.category;
+}
+
+// TIL-specific functions
+export function parseTilSlug(slug: string): BlogSlugInfo | null {
+  return parseCollectionSlug(slug);
+}
+
+export function createTilSlug(category: string, id: number): string {
+  return createCollectionSlug(category, id);
+}
+
+export function getTilCollectionSlug(entry: CollectionEntry<"til">): string {
+  const slugInfo = parseTilSlug(entry.slug);
+  if (!slugInfo) {
+    throw new Error(`Invalid til entry slug: ${entry.slug}`);
+  }
+  return createTilSlug(slugInfo.category, slugInfo.id);
+}
+
+export function getTilEntryLanguage(entry: CollectionEntry<"til">): Language {
+  const slugInfo = parseTilSlug(entry.slug);
+  if (!slugInfo) {
+    throw new Error(`Cannot determine language for til entry: ${entry.slug}`);
+  }
+  return slugInfo.language;
+}
+
+export function getTilEntryCategory(entry: CollectionEntry<"til">): string {
+  const slugInfo = parseTilSlug(entry.slug);
+  if (!slugInfo) {
+    throw new Error(`Cannot determine category for til entry: ${entry.slug}`);
   }
   return slugInfo.category;
 }
