@@ -1,4 +1,5 @@
-export const CATEGORIES = {
+// TIL Categories (existing content from blog)
+export const TIL_CATEGORIES = {
   "toy-project": {
     ko: "토이 프로젝트",
     en: "Toy Project"
@@ -21,17 +22,48 @@ export const CATEGORIES = {
   }
 } as const;
 
-export type CategoryKey = keyof typeof CATEGORIES;
+// Blog Categories (new, can be extended as needed)
+export const BLOG_CATEGORIES = {
+  // Add new blog categories here
+} as const;
 
-export const CATEGORY_KEYS = Object.keys(CATEGORIES) as CategoryKey[];
+export type TilCategoryKey = keyof typeof TIL_CATEGORIES;
+export type BlogCategoryKey = keyof typeof BLOG_CATEGORIES;
 
+// Backward compatibility
+export const CATEGORIES = TIL_CATEGORIES;
+export type CategoryKey = TilCategoryKey;
+export const CATEGORY_KEYS = Object.keys(TIL_CATEGORIES) as TilCategoryKey[];
+
+// TIL-specific functions
+export function getTilCategoryName(categoryKey: TilCategoryKey, locale: "ko" | "en" = "ko"): string {
+  return TIL_CATEGORIES[categoryKey][locale];
+}
+
+export function getAllTilCategories(locale: "ko" | "en" = "ko") {
+  return Object.keys(TIL_CATEGORIES).map(key => ({
+    key,
+    name: TIL_CATEGORIES[key as TilCategoryKey][locale]
+  }));
+}
+
+// Blog-specific functions
+export function getBlogCategoryName(categoryKey: BlogCategoryKey, locale: "ko" | "en" = "ko"): string {
+  return BLOG_CATEGORIES[categoryKey][locale];
+}
+
+export function getAllBlogCategories(locale: "ko" | "en" = "ko") {
+  return Object.keys(BLOG_CATEGORIES).map(key => ({
+    key,
+    name: BLOG_CATEGORIES[key as BlogCategoryKey][locale]
+  }));
+}
+
+// Backward compatibility functions
 export function getCategoryName(categoryKey: CategoryKey, locale: "ko" | "en" = "ko"): string {
-  return CATEGORIES[categoryKey][locale];
+  return getTilCategoryName(categoryKey, locale);
 }
 
 export function getAllCategories(locale: "ko" | "en" = "ko") {
-  return CATEGORY_KEYS.map(key => ({
-    key,
-    name: CATEGORIES[key][locale]
-  }));
+  return getAllTilCategories(locale);
 }
