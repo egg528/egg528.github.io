@@ -1,15 +1,28 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { createLocalizedUrl } from "@lib/i18n";
-import { getCollectionSlug, getBlogEntryLanguage } from "@lib/slug-utils";
+import {
+  getCollectionSlug,
+  getBlogEntryLanguage,
+  getTilCollectionSlug,
+  getTilEntryLanguage
+} from "@lib/slug-utils";
 
 type Props = {
-  entry: CollectionEntry<"blog">;
+  entry: CollectionEntry<"blog"> | CollectionEntry<"til">;
 }
 
 const { entry } = Astro.props;
-const slug = getCollectionSlug(entry);
-const entryLanguage = getBlogEntryLanguage(entry);
+
+// Dynamically determine which helper functions to use based on collection type
+const slug = entry.collection === "blog"
+  ? getCollectionSlug(entry as CollectionEntry<"blog">)
+  : getTilCollectionSlug(entry as CollectionEntry<"til">);
+
+const entryLanguage = entry.collection === "blog"
+  ? getBlogEntryLanguage(entry as CollectionEntry<"blog">)
+  : getTilEntryLanguage(entry as CollectionEntry<"til">);
+
 const entryHref = createLocalizedUrl(`${entry.collection}/${slug}`, entryLanguage);
 ---
 
