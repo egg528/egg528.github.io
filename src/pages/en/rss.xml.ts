@@ -1,6 +1,6 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
-import { HOME } from "@consts";
+import { BLOG } from "@consts";
 import { getBlogEntryLanguage, getCollectionSlug } from "@lib/slug-utils";
 
 type Context = {
@@ -22,8 +22,8 @@ export async function GET(context: Context) {
     .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 
   return rss({
-    title: `${HOME.TITLE} - English`,
-    description: HOME.DESCRIPTION,
+    title: `${BLOG.TITLE} - English`,
+    description: BLOG.DESCRIPTION,
     site: context.site,
     items: items.map((item) => ({
       title: item.data.title,
