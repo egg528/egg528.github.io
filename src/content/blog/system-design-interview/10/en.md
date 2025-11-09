@@ -4,9 +4,6 @@ description: "Learn how to design large-scale notification systems with third-pa
 date: "2023-07-11"
 draft: false
 ---
-
-<br></br>
-
 ## 1. What is a Notification System?
 - A system that asynchronously provides important information through mobile push notifications, SMS, and email
 

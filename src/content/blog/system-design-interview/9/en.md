@@ -4,9 +4,6 @@ description: "Comprehensive guide to designing and implementing a large-scale we
 date: "2023-07-07"
 draft: false
 ---
-
-<br></br>
-
 ## 1. What is a Web Crawler?
 - A program designed to find content uploaded or updated on the web
 - Content can be in various formats (web page, pdf, image ...)

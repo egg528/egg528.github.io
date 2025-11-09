@@ -4,9 +4,6 @@ description: "Learn how to design search autocomplete systems with trie data str
 date: "2023-07-20"
 draft: false
 ---
-
-<br></br>
-
 ## 1. What is a Search Autocomplete System?
 - When you type words in Google search box, it recommends search terms that match the word you're typing
 - This service is called a search autocomplete system

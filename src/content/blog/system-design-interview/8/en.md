@@ -4,9 +4,6 @@ description: "Learn about URL shortener system design methods including hash fun
 date: "2023-07-02"
 draft: false
 ---
-
-<br></br>
-
 ## 1. What is a Short URL?
 - A short URL is a shortened version of the original URL that redirects to the original URL when accessed.
 - Design considerations:

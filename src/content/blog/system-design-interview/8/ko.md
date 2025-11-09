@@ -4,10 +4,6 @@ description: "URL 단축기 시스템의 설계 방법과 해시 함수, base-62
 date: "2023-07-02"
 draft: false
 ---
-
-
-<br></br>
-
 ## 1. 단축 URL이란?
 - 단축 URL이란 원본 URL을 짧게 줄인 것으로 단축 URL에 접근하면 원본 URL로 리디렉션(redirection)되는 구조이다.
 - 설계 시 고려사항

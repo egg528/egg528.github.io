@@ -4,9 +4,6 @@ description: "Learn how to design social media news feed systems with write-time
 date: "2023-07-16"
 draft: false
 ---
-
-<br></br>
-
 ## 1. What is a News Feed System?
 - Think of the main pages of Facebook, Instagram, and Twitter
 - Refers to pages where continuously updated stories, photos, and videos are posted

@@ -4,9 +4,6 @@ description: "Comprehensive analysis of unique ID generation methods in distribu
 date: "2023-06-28"
 draft: false
 ---
-
-<br></br>
-
 ## 1. Considerations When Designing ID Generators for Distributed Systems
 - ID characteristics: Uniqueness, sortability, etc.
 - Record generation method: Previous data + 1, etc.
