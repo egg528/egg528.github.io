@@ -12,9 +12,19 @@ export const HOME: Metadata = {
   DESCRIPTION: "kws Home",
 };
 
+export const ABOUT: Metadata = {
+  TITLE: "About",
+  DESCRIPTION: "kws - Backend Developer",
+};
+
 export const BLOG: Metadata = {
   TITLE: "Blog",
   DESCRIPTION: "A collection of articles on topics I am passionate about.",
+};
+
+export const TIL: Metadata = {
+  TITLE: "TIL",
+  DESCRIPTION: "Today I Learned - Learning notes and insights",
 };
 
 export const WORK: Metadata = {
@@ -27,9 +37,5 @@ export const SOCIALS: Socials = [
   {
     NAME: "Github",
     HREF: "https://github.com/egg528"
-  },
-  {
-    NAME: "LinkedIn",
-    HREF: "https://www.linkedin.com/in/egg528",
   }
 ];
