@@ -3,23 +3,23 @@ import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import SortToggle from "@components/SortToggle.astro";
-import { BLOG } from "@consts";
-import { 
-  getBlogPostsByLocale, 
-  groupPostsByYear, 
-  groupPostsByCategory,
-  getSortedYears,
-  getSortedCategories
+import { TIL } from "@consts";
+import {
+  getTilPostsByLocale,
+  groupTilPostsByYear,
+  groupTilPostsByCategory,
+  getSortedTilYears,
+  getSortedTilCategories
 } from "@lib/content-helpers";
 
-const posts = await getBlogPostsByLocale("ko");
-const postsByYear = groupPostsByYear(posts);
-const postsByCategory = groupPostsByCategory(posts, "ko");
-const years = getSortedYears(postsByYear);
-const categories = getSortedCategories(postsByCategory);
+const posts = await getTilPostsByLocale("ko");
+const postsByYear = groupTilPostsByYear(posts);
+const postsByCategory = groupTilPostsByCategory(posts, "ko");
+const years = getSortedTilYears(postsByYear);
+const categories = getSortedTilCategories(postsByCategory);
 ---
 
-<PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
+<PageLayout title={TIL.TITLE} description={TIL.DESCRIPTION}>
   <Container>
     <div class="space-y-10">
       <div class="flex justify-start">

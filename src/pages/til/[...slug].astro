@@ -5,29 +5,29 @@ import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
-import { getBlogEntryLanguage, getCollectionSlug } from "@lib/slug-utils";
+import { getTilEntryLanguage, getTilCollectionSlug } from "@lib/slug-utils";
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("blog"))
+  const posts = (await getCollection("til"))
     .filter(post => {
       if (post.data.draft) return false;
       try {
-        return getBlogEntryLanguage(post) === "ko";
+        return getTilEntryLanguage(post) === "ko";
       } catch {
         return false;
       }
     })
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  
+
   return posts.map((post) => {
-    const slug = getCollectionSlug(post);
+    const slug = getTilCollectionSlug(post);
     return {
       params: { slug },
       props: post,
     };
   });
 }
-type Props = CollectionEntry<"blog">;
+type Props = CollectionEntry<"til">;
 
 const post = Astro.props;
 const { Content } = await post.render();
@@ -36,8 +36,8 @@ const { Content } = await post.render();
 <PageLayout title={post.data.title} description={post.data.description}>
   <Container>
     <div class="animate">
-      <BackToPrev href="/blog">
-        Back to blog
+      <BackToPrev href="/til">
+        Back to TIL
       </BackToPrev>
     </div>
     <div class="space-y-1 my-10">
