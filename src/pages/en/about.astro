@@ -1,0 +1,191 @@
+---
+import Container from "@components/Container.astro";
+import PageLayout from "@layouts/PageLayout.astro";
+import { dateRange } from "@lib/utils";
+import { ABOUT } from "@consts";
+
+const workExperience = [
+  {
+    company: "Karrot",
+    logo: "/company-logos/karrot.png",
+    dateStart: new Date("2024-09-29"),
+    dateEnd: "Current"
+  },
+  {
+    company: "Gmarket (Ebay Korea)",
+    logo: "/company-logos/gmarket.png",
+    dateStart: new Date("2022-01-29"),
+    dateEnd: new Date("2024-09-01")
+  }
+];
+---
+
+<PageLayout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
+  <Container>
+    <div>
+      <section>
+        <article class="space-y-8">
+          <div class="animate space-y-3">
+            <h6 class="text-base font-medium opacity-80">
+              Hello, I'm Woosuk Kwon.
+            </h6>
+            <ul class="text-sm space-y-2 opacity-75">
+              <li>
+                I'm gaining experience as a Backend Developer, primarily working
+                with Java and Ruby.
+              </li>
+              <li>
+                While not my main focus, I've also worked with Frontend when
+                needed.
+              </li>
+            </ul>
+          </div>
+
+          <div class="animate space-y-3">
+            <h6 class="text-base font-medium opacity-80">Work</h6>
+            <ul class="text-sm space-y-2 opacity-75 list-disc list-inside">
+              {
+                workExperience.map((entry) => (
+                  <li class="flex items-center gap-2">
+                    {entry.logo && (
+                      <img
+                        src={entry.logo}
+                        alt={`${entry.company} logo`}
+                        class="w-4 h-4 object-contain flex-shrink-0 -ml-6 mr-2"
+                        loading="lazy"
+                      />
+                    )}
+                    <span class="flex-1">
+                      <strong class="text-xs">{entry.company}</strong> -{" "}
+                      {dateRange(entry.dateStart, entry.dateEnd)}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="animate space-y-3">
+            <h6 class="text-base font-medium opacity-80">
+              Activities Outside Work
+            </h6>
+            <ul class="text-sm space-y-3 opacity-75">
+              <li>
+                <strong class="text-xs">Gmarket Hackathon 1st Place</strong>
+                <span class="text-xs"
+                  >- Developed a Slack App for matching employees for
+                  meals/coffee</span
+                >
+                <ul class="ml-2 mt-1">
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://www.etnews.com/20221227000212"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Gmarket Hackathon 1st Place G-Restaurant "Joined for the
+                      event hoodie, ended up winning"</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong class="text-xs">Gmarket Tech Editor</strong>
+                <span class="text-xs"
+                  >- Technical blog review and article contribution</span
+                >
+                <ul class="ml-2 mt-1 space-y-1">
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://dev.gmarket.com/36"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >How Should Objects Be Identified and Implemented?</a
+                    >
+                  </li>
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://dev.gmarket.com/45"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Where and How Should Authentication/Authorization Be
+                      Implemented?</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong class="text-xs">Gmarket Seat Reservation System</strong>
+                <span class="text-xs"
+                  >- Started as a toy project, used company-wide for 1 year</span
+                >
+              </li>
+              <li>
+                <strong class="text-xs">DeveloperMakers 14th Generation</strong>
+                <span class="text-xs"
+                  >- Home server setup and admin development</span
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="animate space-y-3">
+            <h6 class="text-base font-medium opacity-80">
+              Open Source Contributions
+            </h6>
+            <ul class="text-sm space-y-3 opacity-75">
+              <li>
+                <strong class="text-xs">Rails</strong>
+                <span class="text-xs"
+                  >- Added HTTP Cache-Control request directive support</span
+                >
+                <ul class="ml-2 mt-1">
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://github.com/rails/rails/pull/55033"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Add support for HTTP Cache-Control request directives</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong class="text-xs">Grafana Dashboard Templates</strong>
+                <span class="text-xs"
+                  >- Created 3 templates for Spring Boot monitoring (2,383 total
+                  downloads)</span
+                >
+                <ul class="ml-2 mt-1 space-y-1">
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://grafana.com/grafana/dashboards/21308-http/"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Spring Boot HTTP (1,411 downloads)</a
+                    >
+                  </li>
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://grafana.com/grafana/dashboards/21303-cache/"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Spring Boot Cache (490 downloads)</a
+                    >
+                  </li>
+                  <li class="text-xs opacity-60">
+                    <a
+                      href="https://grafana.com/grafana/dashboards/21307-circuit-breaker/"
+                      target="_blank"
+                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
+                      >Spring Boot Circuit Breaker (482 downloads)</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </section>
+    </div>
+  </Container>
+</PageLayout>
