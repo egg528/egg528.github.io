@@ -21,11 +21,18 @@ function getLocalizedLink(path: string) {
       </Link>
       <nav class="flex items-center gap-6">
         <Link
-          href={getLocalizedLink("/blog")}
+          href={getLocalizedLink("/about")}
           underline={false}
-          class={pathname.includes("/blog")
+          class={pathname.includes("/about")
             ? "text-black dark:text-white"
-            : "opacity-60 hover:opacity-100"}>Blog</Link
+            : "opacity-60 hover:opacity-100"}>About</Link
+        >
+        <Link
+          href={getLocalizedLink("/til")}
+          underline={false}
+          class={pathname.includes("/til")
+            ? "text-black dark:text-white"
+            : "opacity-60 hover:opacity-100"}>TIL</Link
         >
         {
           SOCIALS.map((social) => (
