@@ -1,0 +1,68 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import SortToggle from "@components/SortToggle.astro";
+import { BLOG } from "@consts";
+import {
+  getBlogPostsByLocale,
+  groupPostsByYear,
+  groupPostsByCategory,
+  getSortedYears,
+  getSortedCategories
+} from "@lib/content-helpers";
+
+const posts = await getBlogPostsByLocale("ko");
+const postsByYear = groupPostsByYear(posts);
+const postsByCategory = groupPostsByCategory(posts, "ko");
+const years = getSortedYears(postsByYear);
+const categories = getSortedCategories(postsByCategory);
+---
+
+<PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
+  <Container>
+    <div class="space-y-10">
+      <div class="flex justify-start">
+        <SortToggle lang="ko" />
+      </div>
+
+      <div id="year-view" class="space-y-10">
+        {
+          years.map((year) => (
+            <section class="animate space-y-4">
+              <div class="font-semibold text-black dark:text-white">{year}</div>
+              <div>
+                <ul class="flex flex-col gap-4">
+                  {postsByYear[year].map((post) => (
+                    <li>
+                      <ArrowCard entry={post} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          ))
+        }
+      </div>
+
+      <div id="category-view" class="space-y-10 hidden">
+        {
+          categories.map((category) => (
+            <section class="animate space-y-4">
+              <div class="font-semibold text-black dark:text-white">{category}</div>
+              <div>
+                <ul class="flex flex-col gap-4">
+                  {postsByCategory[category].map((post) => (
+                    <li>
+                      <ArrowCard entry={post} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </Container>
+</PageLayout>
