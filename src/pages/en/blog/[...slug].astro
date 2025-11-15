@@ -5,6 +5,7 @@ import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
+import Comments from "@components/Comments.astro";
 import { getBlogEntryLanguage, getCollectionSlug } from "@lib/slug-utils";
 
 export async function getStaticPaths() {
@@ -57,5 +58,6 @@ const { Content } = await post.render();
     <article class="animate">
       <Content />
     </article>
+    <Comments locale="en" />
   </Container>
 </PageLayout>

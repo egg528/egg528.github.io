@@ -1,0 +1,96 @@
+---
+import { getLocaleFromPath } from "@lib/i18n";
+
+interface Props {
+  locale?: "ko" | "en";
+}
+
+const pathname = Astro.url.pathname;
+const detectedLocale = getLocaleFromPath(pathname);
+const { locale = detectedLocale } = Astro.props;
+
+// Normalize pathname to remove language prefix for unified comment threads
+// /en/blog/toy-project/1 -> /blog/toy-project/1
+// /blog/toy-project/1 -> /blog/toy-project/1
+const normalizedPath = pathname.replace(/^\/en\//, "/");
+---
+
+<section aria-label="Comments" class="mt-16 animate">
+  <h2 class="text-xl font-semibold text-black dark:text-white mb-6">
+    {locale === "ko" ? "댓글" : "Comments"}
+  </h2>
+
+  <div id="giscus-container">
+    <script
+      is:inline
+      src="https://giscus.app/client.js"
+      data-repo="egg528/egg528.github.io"
+      data-repo-id="R_kgDOPXIxOw"
+      data-category="Announcements"
+      data-category-id="DIC_kwDOPXIxO84Cxz6G"
+      data-mapping="specific"
+      data-term={normalizedPath}
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang={locale}
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async
+    ></script>
+  </div>
+</section>
+
+<script is:inline>
+  // Sync Giscus theme with site theme
+  function syncGiscusTheme() {
+    const iframe = document.querySelector("iframe.giscus-frame");
+    if (!iframe) return;
+
+    const isDark = document.documentElement.classList.contains("dark");
+    const theme = isDark ? "dark" : "light";
+
+    iframe.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme } } },
+      "https://giscus.app"
+    );
+  }
+
+  // Observe theme changes
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "class"
+      ) {
+        syncGiscusTheme();
+      }
+    });
+  });
+
+  // Start observing when DOM is ready
+  function initGiscusSync() {
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    // Initial sync after Giscus loads
+    const checkGiscus = setInterval(() => {
+      const iframe = document.querySelector("iframe.giscus-frame");
+      if (iframe) {
+        syncGiscusTheme();
+        clearInterval(checkGiscus);
+      }
+    }, 100);
+
+    // Stop checking after 10 seconds
+    setTimeout(() => clearInterval(checkGiscus), 10000);
+  }
+
+  // Handle Astro view transitions
+  document.addEventListener("DOMContentLoaded", initGiscusSync);
+  document.addEventListener("astro:after-swap", initGiscusSync);
+</script>
