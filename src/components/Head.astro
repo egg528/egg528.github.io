@@ -4,6 +4,7 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { SITE } from "@consts";
 import { LANGUAGES, createLocalizedUrl, type Language } from "@lib/i18n";
+import { GoogleAnalytics } from "@astrolib/analytics";
 
 interface Props {
   title: string;
@@ -86,6 +87,13 @@ const { title, description, image = "/nano.png" } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <ClientRouter />
+
+<!-- Google Analytics -->
+{
+  import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID && (
+    <GoogleAnalytics id={import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID} />
+  )
+}
 
 <!-- RSS Link -->
 <link

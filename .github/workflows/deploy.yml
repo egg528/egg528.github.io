@@ -43,6 +43,8 @@ jobs:
         uses: actions/configure-pages@v4
         
       - name: Build with Astro
+        env:
+          PUBLIC_GOOGLE_ANALYTICS_ID: ${{ vars.PUBLIC_GOOGLE_ANALYTICS_ID }}
         run: |
           pnpm run build \
             --site "${{ steps.pages.outputs.origin }}" \
