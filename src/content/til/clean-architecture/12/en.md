@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 12: Deciding on Architecture Style"
+title: "Chapter 12: Deciding on Architecture Style"
 description: "Learn about the core of domain-driven architecture, its relationship with DDD, and the importance of choosing architecture that fits your situation."
 date: "2023-05-06"
 draft: false

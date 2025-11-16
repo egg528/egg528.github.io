@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 5: Implementing Web Adapters"
+title: "Chapter 5: Implementing Web Adapters"
 description: "Learn about the role of web adapters, dependency inversion principles, HTTP request processing, and the necessity of port interfaces."
 date: "2023-03-07"
 draft: false

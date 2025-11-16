@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 9: Database Operations and Web Services"
+title: "Chapter 9: Database Operations and Web Services"
 description: "Explore how DOP handles DB data and web service data, and system design methods through loose coupling between internal components."
 date: "2025-01-16"
 draft: false

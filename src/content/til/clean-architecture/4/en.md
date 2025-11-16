@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 4: Implementing Use Cases"
+title: "Chapter 4: Implementing Use Cases"
 description: "Learn about domain model implementation, use case structure, differences between input validation and business rule validation, and output model design."
 date: "2023-02-27"
 draft: false

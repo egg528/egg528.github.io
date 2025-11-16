@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 9: Assembling the Application"
+title: "Chapter 9: Assembling the Application"
 description: "Learn about dependency injection, the role of configuration components, and controlling dependency direction between application layers."
 date: "2023-04-11"
 draft: false

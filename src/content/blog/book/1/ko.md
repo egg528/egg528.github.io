@@ -1,5 +1,5 @@
 ---
-title: "[책] 세상 끝의 카페"
+title: "세상 끝의 카페"
 description: "3가지 질문을 통해 삶의 의미를 찾아가는 여정에 대한 독후감"
 date: "2024-10-01"
 draft: false

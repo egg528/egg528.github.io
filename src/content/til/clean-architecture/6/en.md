@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 6: Implementing Persistence Adapters"
+title: "Chapter 6: Implementing Persistence Adapters"
 description: "Learn about dependency inversion in persistence adapters, their responsibilities, port interface design, and transaction handling methods."
 date: "2023-03-16"
 draft: false

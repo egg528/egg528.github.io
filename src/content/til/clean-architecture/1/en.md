@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 1: Problems with Layered Architecture"
+title: "Chapter 1: Problems with Layered Architecture"
 description: "Exploring the limitations of 3-layer architecture including database-driven design problems, shortcut risks, testing difficulties, use case hiding, and concurrent development challenges."
 date: "2023-02-01"
 draft: false

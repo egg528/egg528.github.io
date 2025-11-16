@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 5: Basic Concurrency Control"
+title: "Chapter 5: Basic Concurrency Control"
 description: "Learn about the concept and implementation of optimistic concurrency control strategy used in DOP, and implementing change commitment code through structural comparison."
 date: "2024-11-19"
 draft: false

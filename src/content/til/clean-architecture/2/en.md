@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 2: Inverting Dependencies"
+title: "Chapter 2: Inverting Dependencies"
 description: "Learn how to control inter-layer dependencies through the Single Responsibility Principle and Dependency Inversion Principle, and understand core concepts of Clean Architecture and Hexagonal Architecture."
 date: "2023-02-09"
 draft: false

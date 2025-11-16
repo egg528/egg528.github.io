@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 4: State Management"
+title: "Chapter 4: State Management"
 description: "Learn about multi-version system data management through data immutability, a core principle of DOP, and structural sharing."
 date: "2024-11-12"
 draft: false

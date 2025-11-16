@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 11: Polymorphism"
+title: "Chapter 11: Polymorphism"
 description: "Analysis of how to implement OOP polymorphism in DOP and how to utilize multi-method libraries"
 date: "2025-02-06"
 draft: false

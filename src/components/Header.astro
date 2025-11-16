@@ -21,6 +21,13 @@ function getLocalizedLink(path: string) {
       </Link>
       <nav class="flex items-center gap-6">
         <Link
+          href={getLocalizedLink("/blog")}
+          underline={false}
+          class={pathname.includes("/blog")
+            ? "text-black dark:text-white"
+            : "opacity-60 hover:opacity-100"}>Blog</Link
+        >
+        <Link
           href={getLocalizedLink("/til")}
           underline={false}
           class={pathname.includes("/til")

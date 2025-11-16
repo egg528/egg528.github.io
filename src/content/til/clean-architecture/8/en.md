@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 8: Mapping Between Boundaries"
+title: "Chapter 8: Mapping Between Boundaries"
 description: "Explore mapping strategy pros and cons including no mapping, two-way mapping, full mapping, and one-way mapping strategies between layers."
 date: "2023-04-02"
 draft: false

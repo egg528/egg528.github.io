@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 1: Complexity of Object-Oriented Programming"
+title: "Chapter 1: Complexity of Object-Oriented Programming"
 description: "A review of the Data-Oriented Programming book examining the four factors that increase OOP complexity and their solutions"
 date: "2024-10-15"
 draft: false

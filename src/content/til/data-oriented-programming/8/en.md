@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 8: Persistent Data Structures"
+title: "Chapter 8: Persistent Data Structures"
 description: "Understanding the stability and efficiency of persistent data structures that ensure data immutability in DOP"
 date: "2025-01-09"
 draft: false

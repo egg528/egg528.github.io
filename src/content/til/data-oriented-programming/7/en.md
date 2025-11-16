@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 7: Advanced Concurrency Control"
+title: "Chapter 7: Advanced Concurrency Control"
 description: "Data-Oriented Programming (DOP) concurrency management methods and data processing in multithreaded environments using atomic structures"
 date: "2025-01-02"
 draft: false

@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 3: Organizing Code"
+title: "Chapter 3: Organizing Code"
 description: "Compare the pros and cons of layer-based and feature-based organization, and learn effective code organization strategies."
 date: "2023-02-18"
 draft: false

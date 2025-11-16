@@ -19,6 +19,10 @@ export const TIL_CATEGORIES = {
   "system-design-interview": {
     ko: "가상 면접 사례로 배우는 대규모 시스템 설계 기초 1",
     en: "System Design Interview 1"
+  },
+  "conference": {
+      ko: "컨퍼런스",
+      en: "Conference"
   }
 } as const;
 

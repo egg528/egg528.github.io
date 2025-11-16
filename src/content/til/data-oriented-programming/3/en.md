@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 3: Basic Data Manipulation"
+title: "Chapter 3: Basic Data Manipulation"
 description: "DOP Principle 2: Learn how to represent data objects with generic data structures and their advantages and disadvantages."
 date: "2024-11-02"
 draft: false

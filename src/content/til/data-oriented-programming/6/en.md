@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 6: Unit Testing"
+title: "Chapter 6: Unit Testing"
 description: "Learn how to unit test query functions and modification functions in DOP, and explore testing strategies for data-oriented approaches."
 date: "2024-11-26"
 draft: false

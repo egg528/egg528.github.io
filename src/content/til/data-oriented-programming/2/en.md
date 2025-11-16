@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 2: Separating Code and Data"
+title: "Chapter 2: Separating Code and Data"
 description: "Exploring the first principle of data-oriented programming: separating code and data, and examining new perspectives on viewing systems."
 date: "2024-10-29"
 draft: false

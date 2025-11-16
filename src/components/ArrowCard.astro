@@ -4,9 +4,19 @@ import { createLocalizedUrl } from "@lib/i18n";
 import {
   getCollectionSlug,
   getBlogEntryLanguage,
+  getBlogEntryCategory,
   getTilCollectionSlug,
-  getTilEntryLanguage
+  getTilEntryLanguage,
+  getTilEntryCategory
 } from "@lib/slug-utils";
+import { formatDateKorean } from "@lib/utils";
+import {
+  getTilCategoryName,
+  TIL_CATEGORIES,
+  BLOG_CATEGORIES,
+  type TilCategoryKey,
+  type BlogCategoryKey
+} from "@lib/categories";
 
 type Props = {
   entry: CollectionEntry<"blog"> | CollectionEntry<"til">;
@@ -23,6 +33,26 @@ const entryLanguage = entry.collection === "blog"
   ? getBlogEntryLanguage(entry as CollectionEntry<"blog">)
   : getTilEntryLanguage(entry as CollectionEntry<"til">);
 
+const categoryKey = entry.collection === "blog"
+  ? getBlogEntryCategory(entry as CollectionEntry<"blog">)
+  : getTilEntryCategory(entry as CollectionEntry<"til">);
+
+// Get localized category name with fallback to key
+const getCategoryDisplayName = () => {
+  // Check TIL_CATEGORIES first (shared between blog and til)
+  if (categoryKey in TIL_CATEGORIES) {
+    return getTilCategoryName(categoryKey as TilCategoryKey, entryLanguage);
+  }
+  // Check BLOG_CATEGORIES for blog-specific categories
+  if (entry.collection === "blog" && categoryKey in BLOG_CATEGORIES) {
+    return BLOG_CATEGORIES[categoryKey as BlogCategoryKey][entryLanguage];
+  }
+  return categoryKey; // fallback to raw key
+};
+
+const categoryName = getCategoryDisplayName();
+const formattedDate = formatDateKorean(entry.data.date);
+
 const entryHref = createLocalizedUrl(`${entry.collection}/${slug}`, entryLanguage);
 ---
 
@@ -30,6 +60,9 @@ const entryHref = createLocalizedUrl(`${entry.collection}/${slug}`, entryLanguag
   <div class="flex flex-col flex-1 truncate">
     <div class="font-semibold">
       {entry.data.title}
+    </div>
+    <div class="text-xs opacity-60">
+      [{categoryName}] · {formattedDate}
     </div>
     <div class="text-sm">
       {entry.data.description}

@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 10: Enforcing Architecture Boundaries"
+title: "Chapter 10: Enforcing Architecture Boundaries"
 description: "Learn methods for enforcing architecture boundaries through access modifiers, post-compile checks, and build artifacts."
 date: "2023-04-19"
 draft: false

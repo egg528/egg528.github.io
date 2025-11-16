@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 10: Advanced Data Validation"
+title: "Chapter 10: Advanced Data Validation"
 description: "Learn about validating method arguments and return values in Ruby and Python development, data model schemas using JSON schemas, and automatic test generation."
 date: "2025-01-27"
 draft: false

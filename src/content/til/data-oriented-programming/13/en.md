@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 13: Debugging"
+title: "Chapter 13: Debugging"
 description: "Learn about the debugging advantages of DOP, REPL utilization, and context capture methods. Introduces effective debugging strategies using data immutability."
 date: "2025-02-29"
 draft: false

@@ -1,5 +1,5 @@
 ---
-title: "[Data-Oriented Programming] Chapter 12: Advanced Data Validation"
+title: "Chapter 12: Advanced Data Validation"
 description: "A review of Data-Oriented Programming Chapter 14, covering methods to improve readability in complex logic. Introduces practical approaches to generic function utilization, operation naming, and proper tool selection."
 date: "2025-02-15"
 draft: false

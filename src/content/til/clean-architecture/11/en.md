@@ -1,5 +1,5 @@
 ---
-title: "[Clean Architecture in Practice] Chapter 11: Taking Shortcuts Consciously"
+title: "Chapter 11: Taking Shortcuts Consciously"
 description: "Learn about practical uses of architectural shortcuts including sharing models between use cases, using domain entities as input/output models, and other strategic approaches."
 date: "2023-04-28"
 draft: false
