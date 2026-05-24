@@ -11,6 +11,27 @@ type Props = {
 };
 
 const { title, description } = Astro.props;
+
+const animation = {
+  old: [
+    {
+      name: "kws-pageout",
+      duration: "180ms",
+      easing: "ease-out",
+      fillMode: "forwards" as const,
+    },
+  ],
+  new: [
+    {
+      name: "kws-pagein",
+      duration: "700ms",
+      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+      fillMode: "both" as const,
+    },
+  ],
+};
+
+const kwsPagein = { forwards: animation, backwards: animation };
 ---
 
 <!doctype html>
@@ -20,9 +41,30 @@ const { title, description } = Astro.props;
   </head>
   <body>
     <Header />
-    <main>
+    <main transition:animate={kwsPagein}>
       <slot />
     </main>
     <Footer />
   </body>
 </html>
+
+<style is:global>
+  @keyframes kws-pagein {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes kws-pageout {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+</style>
