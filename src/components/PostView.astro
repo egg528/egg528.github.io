@@ -1,0 +1,338 @@
+---
+import "../styles/prose.css";
+import type { CollectionEntry } from "astro:content";
+import type { MarkdownHeading } from "astro";
+import { getCategoryName, type CategoryKey } from "@lib/categories";
+import { createLocalizedUrl, type Language } from "@lib/i18n";
+import Comments from "@components/Comments.astro";
+
+type Kind = "blog" | "til";
+
+interface Props {
+  kind: Kind;
+  post: CollectionEntry<"blog"> | CollectionEntry<"til">;
+  headings: MarkdownHeading[];
+  locale: Language;
+}
+
+const { kind, post, headings, locale } = Astro.props;
+const { Content } = await post.render();
+
+const homeHref = createLocalizedUrl(`/${kind}`, locale);
+const backLabel = kind === "til" ? "TIL" : "Blog";
+
+const pad = (n: number) => String(n).padStart(2, "0");
+function formatDate(d: Date) {
+  if (locale === "ko") {
+    return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`;
+  }
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(d);
+}
+
+function readingMinutes(body: string) {
+  const text = body.replace(/<[^>]+>/g, "");
+  const words = Math.max(1, text.split(/\s+/).filter(Boolean).length);
+  const minutes = Math.max(1, Math.round(words / 200) + 1);
+  return locale === "ko" ? `${minutes}분 정도` : `${minutes} min`;
+}
+
+const category = post.slug.split("/")[0] as CategoryKey;
+const categoryName = category ? getCategoryName(category, locale) : "";
+
+const meta = [categoryName, formatDate(post.data.date), readingMinutes(post.body)]
+  .filter(Boolean)
+  .join("  ·  ");
+
+const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
+const hasToc = tocItems.length > 0;
+const tocLabel = locale === "ko" ? "목차" : "Contents";
+---
+
+<section class="kws-page">
+  <div class="post-grid">
+    {
+      hasToc && (
+        <aside class="post-toc" aria-label={tocLabel}>
+          <div class="post-toc-label">{tocLabel}</div>
+          {tocItems.map((h) => (
+            <a href={`#${h.slug}`} data-depth={h.depth}>
+              {h.text}
+            </a>
+          ))}
+        </aside>
+      )
+    }
+
+    <div class="post-main" data-toc={hasToc ? "yes" : "no"}>
+      <a class="back" href={homeHref}>← {backLabel}</a>
+
+      <div class="post-meta">{meta}</div>
+      <h1 class="kws-post-title kws-mark kws-mark--always post-title">
+        {post.data.title}
+      </h1>
+
+      <article class="kws-prose post-prose">
+        <Content />
+      </article>
+
+      <footer class="post-foot">
+        <a href={homeHref}>← {backLabel}</a>
+      </footer>
+
+      {kind === "blog" && <Comments locale={locale} />}
+    </div>
+  </div>
+</section>
+
+<style>
+  .kws-page {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 16px var(--container-pad) 160px;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: 200px 40px 1fr;
+    margin-left: -240px;
+    align-items: start;
+  }
+
+  .post-toc {
+    grid-column: 1;
+    position: sticky;
+    top: 200px;
+    align-self: start;
+    text-align: left;
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .post-toc::-webkit-scrollbar {
+    display: none;
+  }
+
+  .post-main {
+    grid-column: 3;
+    min-width: 0;
+  }
+  .post-main[data-toc="no"] {
+    grid-column: 1 / -1;
+  }
+
+  .post-toc-label {
+    font-size: var(--fs-xs);
+    color: var(--fg-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+  }
+
+  .post-toc a {
+    display: block;
+    position: relative;
+    padding: 5px 0 5px 14px;
+    font-size: 13px;
+    color: var(--fg);
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color var(--dur-medium) var(--ease-out);
+  }
+  .post-toc a::before {
+    content: "";
+    position: absolute;
+    top: 0.85em;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--fg);
+  }
+  .post-toc a[data-depth="3"] {
+    padding-left: 26px;
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .post-toc a[data-depth="3"]::before {
+    left: 12px;
+    width: 3px;
+    height: 3px;
+    background: var(--fg-muted);
+  }
+  .post-toc a[data-depth="4"] {
+    padding-left: 38px;
+    font-size: 11px;
+    color: var(--fg-faint);
+  }
+  .post-toc a[data-depth="4"]::before {
+    left: 24px;
+    width: 2px;
+    height: 2px;
+    background: var(--fg-faint);
+  }
+  .post-toc a:hover,
+  .post-toc a.is-current {
+    color: var(--fg-strong);
+  }
+  .post-toc a:hover::before,
+  .post-toc a.is-current::before {
+    background: var(--fg-strong);
+  }
+  .post-toc a.is-current {
+    font-weight: var(--fw-medium);
+  }
+
+  @media (max-width: 1299px) {
+    .post-grid {
+      grid-template-columns: 1fr;
+      margin-left: 0;
+    }
+    .post-toc {
+      grid-column: 1;
+      position: static;
+      width: auto;
+      max-height: none;
+      overflow: visible;
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px dashed var(--rule);
+      display: flex;
+      gap: var(--space-4);
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    .post-toc-label {
+      display: none;
+    }
+    .post-toc a {
+      padding: 2px 0 2px 14px;
+    }
+    .post-toc a[data-depth="3"],
+    .post-toc a[data-depth="4"] {
+      padding-left: 14px;
+    }
+    .post-main {
+      grid-column: 1;
+    }
+  }
+
+  .back {
+    display: inline-block;
+    position: relative;
+    font-size: var(--fs-sm);
+    color: var(--fg);
+    margin: var(--space-4) 0 var(--space-12);
+    padding-bottom: 3px;
+    transition: color var(--dur-medium) var(--ease-out);
+  }
+  .back::after,
+  .post-foot a::after {
+    content: "";
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    height: 5px;
+    background: var(--stroke-url) no-repeat center / 100% 100%;
+    opacity: 0;
+    transform: translateX(8px) scaleX(0.85);
+    transform-origin: left;
+    transition:
+      opacity var(--dur-medium) var(--ease-out),
+      transform var(--dur-medium) var(--ease-out);
+  }
+  .back:hover,
+  .post-foot a:hover {
+    color: var(--fg-strong);
+  }
+  .back:hover::after,
+  .post-foot a:hover::after {
+    opacity: 1;
+    transform: translateX(0) scaleX(1);
+  }
+
+  .post-meta {
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    letter-spacing: 0.02em;
+  }
+  .post-title {
+    font-size: var(--fs-display);
+    margin-top: var(--space-2);
+    line-height: 1.15;
+  }
+
+  .post-prose {
+    margin-top: var(--space-16);
+  }
+
+  .post-foot {
+    margin-top: var(--space-20);
+    padding-top: var(--space-8);
+    border-top: 1px dashed var(--rule);
+  }
+  .post-foot a {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 3px;
+    color: var(--fg);
+    font-size: var(--fs-sm);
+    transition: color var(--dur-medium) var(--ease-out);
+  }
+</style>
+
+<script>
+  function setupTocActive() {
+    const toc = document.querySelector<HTMLElement>(".post-toc");
+    if (!toc) return;
+    const links = Array.from(
+      toc.querySelectorAll<HTMLAnchorElement>("a[href^='#']"),
+    );
+    if (!links.length) return;
+
+    const linkBySlug = new Map<string, HTMLAnchorElement>();
+    links.forEach((a) => {
+      const slug = a.getAttribute("href")?.slice(1);
+      if (slug) linkBySlug.set(slug, a);
+    });
+
+    const headings = Array.from(linkBySlug.keys())
+      .map((slug) => document.getElementById(slug))
+      .filter((el): el is HTMLElement => el !== null);
+    if (!headings.length) return;
+
+    let lastActive: string | null = null;
+    function setActive(slug: string | null) {
+      if (slug === lastActive) return;
+      links.forEach((a) => a.classList.remove("is-current"));
+      if (slug) linkBySlug.get(slug)?.classList.add("is-current");
+      lastActive = slug;
+    }
+
+    const visible = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        if (visible.size === 0) return;
+        const first = headings.find((h) => visible.has(h.id));
+        if (first) setActive(first.id);
+      },
+      { rootMargin: "-80px 0px -60% 0px", threshold: 0 },
+    );
+    headings.forEach((h) => observer.observe(h));
+    setActive(headings[0].id);
+  }
+
+  document.addEventListener("DOMContentLoaded", setupTocActive);
+  document.addEventListener("astro:page-load", setupTocActive);
+</script>

@@ -1,0 +1,248 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import { getCategoryName, type CategoryKey } from "@lib/categories";
+import { createLocalizedUrl, type Language } from "@lib/i18n";
+
+type Kind = "blog" | "til";
+
+interface Props {
+  kind: Kind;
+  locale: Language;
+}
+
+const { kind, locale } = Astro.props;
+
+type Entry = CollectionEntry<"blog"> | CollectionEntry<"til">;
+
+function parseSlug(slug: string): { category: string; lang: Language } | null {
+  const [category, , filename] = slug.split("/");
+  if (!category || !filename) return null;
+  const lang: Language | null =
+    filename === "ko" || filename.startsWith("ko.")
+      ? "ko"
+      : filename === "en" || filename.startsWith("en.")
+        ? "en"
+        : null;
+  if (!lang) return null;
+  return { category, lang };
+}
+
+function entryHref(entry: Entry): string {
+  const info = parseSlug(entry.slug);
+  if (!info) return "#";
+  const [category, id] = entry.slug.split("/");
+  return createLocalizedUrl(`/${kind}/${category}/${id}`, locale);
+}
+
+function entryCategory(entry: Entry): string {
+  const info = parseSlug(entry.slug);
+  if (!info) return "";
+  return getCategoryName(info.category as CategoryKey, locale);
+}
+
+const all = (await getCollection(kind))
+  .filter((p) => {
+    if (p.data.draft) return false;
+    const info = parseSlug(p.slug);
+    return info?.lang === locale;
+  })
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const byYear: Record<string, Entry[]> = {};
+const byCategory: Record<string, Entry[]> = {};
+for (const post of all) {
+  const year = String(post.data.date.getFullYear());
+  (byYear[year] ||= []).push(post);
+  const cat = entryCategory(post);
+  if (cat) (byCategory[cat] ||= []).push(post);
+}
+const years = Object.keys(byYear).sort((a, b) => +b - +a);
+const categories = Object.keys(byCategory).sort();
+
+const pad = (n: number) => String(n).padStart(2, "0");
+const shortDate = (d: Date) => `${pad(d.getMonth() + 1)}.${pad(d.getDate())}`;
+const fullDate = (d: Date) =>
+  `${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())}`;
+
+const labels =
+  locale === "ko"
+    ? { year: "연도", category: "카테고리" }
+    : { year: "Year", category: "Category" };
+---
+
+<section class="kws-page">
+  <div class="kws-sort" role="tablist" aria-label="Sort posts">
+    <button type="button" class="on" data-sort="year" role="tab" aria-selected="true">
+      {labels.year}
+    </button>
+    <button type="button" data-sort="category" role="tab" aria-selected="false">
+      {labels.category}
+    </button>
+  </div>
+
+  <div data-view="year">
+    {
+      years.map((year) => (
+        <section class="feed-group">
+          <div class="group-label">{year}</div>
+          <ul class="posts">
+            {byYear[year].map((post) => (
+              <li>
+                <a href={entryHref(post)}>
+                  <span class="post-date">{shortDate(post.data.date)}</span>
+                  <span class="post-body">
+                    <span class="kws-list-title kws-mark">{post.data.title}</span>
+                    <span class="post-cat">{entryCategory(post)}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+
+  <div data-view="category" hidden>
+    {
+      categories.map((category) => (
+        <section class="feed-group">
+          <div class="group-label">{category}</div>
+          <ul class="posts">
+            {byCategory[category].map((post) => (
+              <li>
+                <a href={entryHref(post)}>
+                  <span class="post-date">{fullDate(post.data.date)}</span>
+                  <span class="post-body">
+                    <span class="kws-list-title kws-mark">{post.data.title}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .kws-page {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 16px var(--container-pad) 160px;
+  }
+
+  .kws-sort {
+    display: flex;
+    gap: var(--space-5);
+    margin-top: var(--space-4);
+    font-size: var(--fs-md);
+  }
+  .kws-sort button {
+    color: var(--fg);
+    padding: 2px 1px;
+    position: relative;
+    transition: color var(--dur-medium) var(--ease-out);
+  }
+  .kws-sort button:hover {
+    color: var(--fg-strong);
+  }
+  .kws-sort button.on {
+    color: var(--fg-strong);
+    font-weight: var(--fw-medium);
+  }
+  .kws-sort button.on::after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    right: -3px;
+    bottom: -5px;
+    height: 5px;
+    background: var(--stroke-url) no-repeat center / 100% 100%;
+  }
+
+  .feed-group {
+    margin-top: var(--space-12);
+  }
+  .feed-group:first-of-type {
+    margin-top: var(--space-8);
+  }
+  .feed-group .group-label {
+    display: block;
+    font-size: var(--fs-sm);
+    color: var(--fg-strong);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: var(--space-3);
+  }
+
+  .posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .posts a {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    column-gap: var(--space-5);
+    align-items: baseline;
+    padding: var(--space-3) 0;
+    transition: opacity var(--dur-medium) var(--ease-out);
+  }
+  .posts a:hover :global(.kws-list-title) {
+    color: var(--fg-strong);
+  }
+
+  .post-date {
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+  }
+  .post-body {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .post-cat {
+    font-size: var(--fs-xs);
+    color: var(--fg-muted);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 520px) {
+    .kws-page {
+      padding: 12px 22px 120px;
+    }
+    .posts a {
+      grid-template-columns: 56px 1fr;
+      column-gap: var(--space-4);
+    }
+  }
+</style>
+
+<script>
+  function applySort(sort: "year" | "category") {
+    document.querySelectorAll<HTMLElement>(".kws-sort button").forEach((b) => {
+      const on = b.dataset.sort === sort;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    document.querySelectorAll<HTMLElement>("[data-view]").forEach((v) => {
+      v.hidden = v.dataset.view !== sort;
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    const btn = (event.target as HTMLElement | null)?.closest<HTMLButtonElement>(
+      ".kws-sort button",
+    );
+    if (btn?.dataset.sort) applySort(btn.dataset.sort as "year" | "category");
+  });
+
+  document.addEventListener("astro:page-load", () => applySort("year"));
+</script>
