@@ -1,61 +1,300 @@
 ---
-import Container from "@components/Container.astro";
-import Link from "@components/Link.astro";
-import LanguageSelector from "@components/LanguageSelector.astro";
-import { getLocaleFromPath, createLocalizedUrl } from "@lib/i18n";
-import { SOCIALS } from "@consts";
+import {
+  getLocaleFromPath,
+  createLocalizedUrl,
+  getAlternateLanguageUrl,
+  LANGUAGES,
+  type Language,
+} from "@lib/i18n";
 
 const { pathname } = Astro.url;
-const locale = getLocaleFromPath(pathname);
+const locale: Language = getLocaleFromPath(pathname);
 
-function getLocalizedLink(path: string) {
-  return createLocalizedUrl(path, locale);
+const home = createLocalizedUrl("/", locale);
+const blogHref = createLocalizedUrl("/blog", locale);
+const tilHref = createLocalizedUrl("/til", locale);
+const aboutHref = createLocalizedUrl("/about", locale);
+const githubHref = "https://github.com/egg528";
+
+const sectionPath = pathname.replace(/^\/en/, "") || "/";
+function isActive(section: "blog" | "til" | "about") {
+  if (section === "blog")
+    return sectionPath.startsWith("/blog") || sectionPath === "/";
+  if (section === "til") return sectionPath.startsWith("/til");
+  if (section === "about") return sectionPath.startsWith("/about");
+  return false;
 }
+const blogActive = isActive("blog");
+const tilActive = isActive("til");
+const aboutActive = isActive("about");
+
+const languageOptions = (Object.keys(LANGUAGES) as Language[]).map((lang) => ({
+  code: lang,
+  label: LANGUAGES[lang].label,
+  href: getAlternateLanguageUrl(pathname, lang),
+}));
+const currentLanguageLabel = LANGUAGES[locale].label;
 ---
 
-<header>
-  <Container>
-    <div class="flex flex-wrap items-center justify-between gap-y-2">
-      <Link href={getLocalizedLink("/")} underline={false} class="-ml-2">
-        <img src="/logo.png" alt="Logo" class="h-14 w-14 object-contain" />
-      </Link>
-      <nav class="flex items-center gap-6">
-        <Link
-          href={getLocalizedLink("/blog")}
-          underline={false}
-          class={pathname.includes("/blog")
-            ? "text-black dark:text-white"
-            : "opacity-60 hover:opacity-100"}>Blog</Link
+<header class="kws-head">
+  <a class="kws-brand" href={home} aria-label="kws home">
+    <img src="/assets/logo.png" alt="kws" width="52" height="52" />
+  </a>
+  <div class="kws-head-right">
+    <nav class="kws-nav" aria-label="primary">
+      <a href={blogHref} class:list={[blogActive && "kws-nav-active"]}>Blog</a>
+      <a href={tilHref} class:list={[tilActive && "kws-nav-active"]}>TIL</a>
+      <a
+        href={githubHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Github (opens in new tab)">Github</a
+      >
+      <a href={aboutHref} class:list={[aboutActive && "kws-nav-active"]}
+        >About</a
+      >
+
+      <div class="kws-lang" data-lang-root>
+        <button
+          type="button"
+          class="kws-lang-btn"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          data-lang-btn
         >
-        <Link
-          href={getLocalizedLink("/til")}
-          underline={false}
-          class={pathname.includes("/til")
-            ? "text-black dark:text-white"
-            : "opacity-60 hover:opacity-100"}>TIL</Link
-        >
-        {
-          SOCIALS.map((social) => (
-            <Link
-              href={social.HREF}
-              external
-              underline={false}
-              class="opacity-60 hover:opacity-100"
-              aria-label={`Visit ${social.NAME}`}
-            >
-              {social.NAME}
-            </Link>
-          ))
-        }
-        <Link
-          href={getLocalizedLink("/about")}
-          underline={false}
-          class={pathname.includes("/about")
-            ? "text-black dark:text-white"
-            : "opacity-60 hover:opacity-100"}>About</Link
-        >
-        <LanguageSelector />
-      </nav>
-    </div>
-  </Container>
+          <span>{currentLanguageLabel}</span>
+          <svg
+            class="kws-lang-caret"
+            viewBox="0 0 10 6"
+            aria-hidden="true"
+            width="10"
+            height="6"
+          >
+            <path
+              d="M1 1l4 4 4-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+        <ul class="kws-lang-menu" role="listbox" hidden>
+          {
+            languageOptions.map((opt) => (
+              <li role="option" aria-selected={opt.code === locale}>
+                <a
+                  href={opt.href}
+                  class:list={[opt.code === locale && "is-current"]}
+                >
+                  {opt.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+    <button
+      type="button"
+      class="kws-theme-btn"
+      aria-label="Toggle theme"
+      onclick="window.__kwsToggleTheme && window.__kwsToggleTheme()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <line x1="12" y1="2" x2="12" y2="5"></line>
+        <line x1="12" y1="19" x2="12" y2="22"></line>
+        <line x1="2" y1="12" x2="5" y2="12"></line>
+        <line x1="19" y1="12" x2="22" y2="12"></line>
+        <line x1="4.6" y1="4.6" x2="6.6" y2="6.6"></line>
+        <line x1="17.4" y1="17.4" x2="19.4" y2="19.4"></line>
+        <line x1="4.6" y1="19.4" x2="6.6" y2="17.4"></line>
+        <line x1="17.4" y1="6.6" x2="19.4" y2="4.6"></line>
+      </svg>
+    </button>
+  </div>
 </header>
+
+<style>
+  .kws-head {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: 28px var(--container-pad);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .kws-brand {
+    display: flex;
+    align-items: center;
+    margin: -8px 0 -8px -6px;
+  }
+  .kws-brand img {
+    height: 52px;
+    width: 52px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .kws-head-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .kws-nav {
+    display: flex;
+    gap: var(--space-6);
+    font-size: var(--fs-md);
+    align-items: center;
+  }
+  .kws-nav > a {
+    color: var(--fg);
+    padding: 2px 1px;
+    transition: color var(--dur-medium) var(--ease-out);
+  }
+  .kws-nav > a:hover {
+    color: var(--fg-strong);
+  }
+
+  .kws-lang {
+    position: relative;
+  }
+  .kws-lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    letter-spacing: 0.02em;
+    padding: 2px 1px;
+    transition: color var(--dur-medium) var(--ease-out);
+  }
+  .kws-lang-btn:hover,
+  .kws-lang[data-open="true"] .kws-lang-btn {
+    color: var(--fg-strong);
+  }
+  .kws-lang-caret {
+    transition: transform var(--dur-medium) var(--ease-out);
+  }
+  .kws-lang[data-open="true"] .kws-lang-caret {
+    transform: rotate(180deg);
+  }
+  .kws-lang-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 120px;
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-popover);
+    z-index: 20;
+  }
+  .kws-lang-menu li {
+    margin: 0;
+    padding: 0;
+  }
+  .kws-lang-menu a {
+    display: block;
+    padding: 8px 14px;
+    font-size: var(--fs-sm);
+    color: var(--fg);
+    transition: background var(--dur-medium) var(--ease-out),
+      color var(--dur-medium) var(--ease-out);
+  }
+  .kws-lang-menu a:hover {
+    color: var(--fg-strong);
+    background: var(--hover-tint);
+  }
+  .kws-lang-menu a.is-current {
+    color: var(--fg-strong);
+    font-weight: var(--fw-medium);
+  }
+
+  .kws-theme-btn {
+    width: 32px;
+    height: 32px;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    transition:
+      color var(--dur-medium) var(--ease-out),
+      transform 0.5s var(--ease-out);
+  }
+  .kws-theme-btn:hover {
+    color: var(--fg-strong);
+  }
+  .kws-theme-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  :global(html[data-theme="dark"]) .kws-theme-btn {
+    transform: rotate(180deg);
+  }
+
+  @media (max-width: 520px) {
+    .kws-head {
+      padding: 22px;
+      gap: var(--space-4);
+    }
+    .kws-nav {
+      gap: var(--space-4);
+    }
+  }
+</style>
+
+<script>
+  function closeAllLangMenus(except: HTMLElement | null = null) {
+    document.querySelectorAll<HTMLElement>("[data-lang-root]").forEach((root) => {
+      if (root === except) return;
+      root.dataset.open = "false";
+      const btn = root.querySelector<HTMLButtonElement>("[data-lang-btn]");
+      const menu = root.querySelector<HTMLElement>(".kws-lang-menu");
+      btn?.setAttribute("aria-expanded", "false");
+      if (menu) menu.hidden = true;
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement | null;
+    if (!target) return;
+    const btn = target.closest<HTMLButtonElement>("[data-lang-btn]");
+    if (btn) {
+      const root = btn.closest<HTMLElement>("[data-lang-root]");
+      if (!root) return;
+      const isOpen = root.dataset.open === "true";
+      closeAllLangMenus(root);
+      const next = !isOpen;
+      root.dataset.open = next ? "true" : "false";
+      btn.setAttribute("aria-expanded", next ? "true" : "false");
+      const menu = root.querySelector<HTMLElement>(".kws-lang-menu");
+      if (menu) menu.hidden = !next;
+      event.stopPropagation();
+      return;
+    }
+    if (!target.closest("[data-lang-root]")) {
+      closeAllLangMenus();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeAllLangMenus();
+  });
+
+  document.addEventListener("astro:after-swap", () => closeAllLangMenus());
+</script>
