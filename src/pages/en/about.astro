@@ -1,191 +1,345 @@
 ---
-import Container from "@components/Container.astro";
 import PageLayout from "@layouts/PageLayout.astro";
-import { dateRange } from "@lib/utils";
 import { ABOUT } from "@consts";
 
-const workExperience = [
+const intro = [
+  "Backend Developer mostly working with Java and Ruby.",
+  "I touch the frontend too when a project needs it.",
+];
+
+const work = [
   {
-    company: "Karrot",
-    logo: "/company-logos/karrot.png",
-    dateStart: new Date("2024-09-29"),
-    dateEnd: "Current"
+    dateStart: "2024.09",
+    dateEnd: "Now",
+    title: "Karrot",
+    role: "Backend Engineer",
+    logo: "/assets/company-logos/karrot.png",
   },
   {
-    company: "Gmarket (Ebay Korea)",
-    logo: "/company-logos/gmarket.png",
-    dateStart: new Date("2022-01-29"),
-    dateEnd: new Date("2024-09-01")
-  }
+    dateStart: "2022.01",
+    dateEnd: "2024.09",
+    title: "Gmarket",
+    role: "Backend Engineer",
+    logo: "/assets/company-logos/gmarket.png",
+  },
+];
+
+type Sublink = { label: string; href: string };
+type Activity = {
+  date: string;
+  title: string;
+  desc?: string;
+  note?: string;
+  sublinks?: Sublink[];
+};
+
+const activities: Activity[] = [
+  {
+    date: "2022",
+    title: "Gmarket Hackathon — 1st place",
+    desc: "A Slack app that matched colleagues for meals and coffee.",
+    note: "\"Joined for the event hoodie, ended up winning.\"",
+    sublinks: [
+      {
+        label: "News coverage",
+        href: "https://www.etnews.com/20221227000212",
+      },
+    ],
+  },
+  {
+    date: "2023",
+    title: "Gmarket Tech Editor",
+    desc: "Reviewing and contributing to the company tech blog.",
+    sublinks: [
+      {
+        label: "How should objects be identified and implemented?",
+        href: "https://dev.gmarket.com/36",
+      },
+      {
+        label: "Where and how should auth be implemented?",
+        href: "https://dev.gmarket.com/45",
+      },
+    ],
+  },
+  {
+    date: "2023",
+    title: "Gmarket seat reservation system",
+    desc: "Started as a toy project, used company-wide for a year.",
+  },
+  {
+    date: "2024",
+    title: "Depromeet 14th",
+    desc: "Home server setup and admin development.",
+  },
+];
+
+const oss: Activity[] = [
+  {
+    date: "2024",
+    title: "Rails",
+    desc: "Added support for HTTP Cache-Control request directives.",
+    sublinks: [
+      {
+        label: "PR #55033 — rails/rails",
+        href: "https://github.com/rails/rails/pull/55033",
+      },
+    ],
+  },
+  {
+    date: "2023",
+    title: "Grafana dashboards",
+    desc: "Three Spring Boot monitoring templates — 21,185 downloads total.",
+    sublinks: [
+      {
+        label: "Spring Boot HTTP (10,905 ↓)",
+        href: "https://grafana.com/grafana/dashboards/21308-http/",
+      },
+      {
+        label: "Spring Boot Cache (10,178 ↓)",
+        href: "https://grafana.com/grafana/dashboards/21303-cache/",
+      },
+      {
+        label: "Spring Boot Circuit Breaker (802 ↓)",
+        href: "https://grafana.com/grafana/dashboards/21307-circuit-breaker/",
+      },
+    ],
+  },
 ];
 ---
 
 <PageLayout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
-  <Container>
-    <div>
-      <section>
-        <article class="space-y-8">
-          <div class="animate space-y-3">
-            <h6 class="text-base font-medium opacity-80">
-              Hello, I'm Woosuk Kwon.
-            </h6>
-            <ul class="text-sm space-y-2 opacity-75">
-              <li>
-                I'm gaining experience as a Backend Developer, primarily working
-                with Java and Ruby.
-              </li>
-              <li>
-                While not my main focus, I've also worked with Frontend when
-                needed.
-              </li>
-            </ul>
-          </div>
+  <section class="kws-page">
+    <div class="about">
+      <h1 class="about-greeting">Hello, I'm Wooseok Kwon.</h1>
 
-          <div class="animate space-y-3">
-            <h6 class="text-base font-medium opacity-80">Work</h6>
-            <ul class="text-sm space-y-2 opacity-75 list-disc list-inside">
-              {
-                workExperience.map((entry) => (
-                  <li class="flex items-center gap-2">
-                    {entry.logo && (
-                      <img
-                        src={entry.logo}
-                        alt={`${entry.company} logo`}
-                        class="w-4 h-4 object-contain flex-shrink-0 -ml-6 mr-2"
-                        loading="lazy"
-                      />
-                    )}
-                    <span class="flex-1">
-                      <strong class="text-xs">{entry.company}</strong> -{" "}
-                      {dateRange(entry.dateStart, entry.dateEnd)}
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
+      <div class="about-intro">
+        {intro.map((line) => <p>{line}</p>)}
+      </div>
 
-          <div class="animate space-y-3">
-            <h6 class="text-base font-medium opacity-80">
-              Activities Outside Work
-            </h6>
-            <ul class="text-sm space-y-3 opacity-75">
-              <li>
-                <strong class="text-xs">Gmarket Hackathon 1st Place</strong>
-                <span class="text-xs"
-                  >- Developed a Slack App for matching employees for
-                  meals/coffee</span
-                >
-                <ul class="ml-2 mt-1">
-                  <li class="text-xs opacity-60">
-                    <a
-                      href="https://www.etnews.com/20221227000212"
-                      target="_blank"
-                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
-                      >Gmarket Hackathon 1st Place G-Restaurant "Joined for the
-                      event hoodie, ended up winning"</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong class="text-xs">Gmarket Tech Editor</strong>
-                <span class="text-xs"
-                  >- Technical blog review and article contribution</span
-                >
-                <ul class="ml-2 mt-1 space-y-1">
-                  <li class="text-xs opacity-60">
-                    <a
-                      href="https://dev.gmarket.com/36"
-                      target="_blank"
-                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
-                      >How Should Objects Be Identified and Implemented?</a
-                    >
-                  </li>
-                  <li class="text-xs opacity-60">
-                    <a
-                      href="https://dev.gmarket.com/45"
-                      target="_blank"
-                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
-                      >Where and How Should Authentication/Authorization Be
-                      Implemented?</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong class="text-xs">Gmarket Seat Reservation System</strong>
-                <span class="text-xs"
-                  >- Started as a toy project, used company-wide for 1 year</span
-                >
-              </li>
-              <li>
-                <strong class="text-xs">DeveloperMakers 14th Generation</strong>
-                <span class="text-xs"
-                  >- Home server setup and admin development</span
-                >
-              </li>
-            </ul>
-          </div>
+      <h2 class="about-section-label">Work</h2>
+      <ul class="about-rows">
+        {
+          work.map((w) => (
+            <li class="about-row">
+              <div class="about-row-date">
+                {w.dateStart}
+                <span class="about-row-date-end">~ {w.dateEnd}</span>
+              </div>
+              <div>
+                <div class="about-row-head">
+                  {w.logo && <img src={w.logo} alt="" />}
+                  <span class="about-row-title">{w.title}</span>
+                  <span class="about-row-role">— {w.role}</span>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
 
-          <div class="animate space-y-3">
-            <h6 class="text-base font-medium opacity-80">
-              Open Source Contributions
-            </h6>
-            <ul class="text-sm space-y-3 opacity-75">
-              <li>
-                <strong class="text-xs">Rails</strong>
-                <span class="text-xs"
-                  >- Added HTTP Cache-Control request directive support</span
-                >
-                <ul class="ml-2 mt-1">
-                  <li class="text-xs opacity-60">
-                    <a
-                      href="https://github.com/rails/rails/pull/55033"
-                      target="_blank"
-                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
-                      >Add support for HTTP Cache-Control request directives</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <strong class="text-xs">Grafana Dashboard Templates</strong>
-                <span class="text-xs"
-                  >- Created 3 templates for Spring Boot monitoring (21,185 total
-                  downloads)</span
-                >
-                <ul class="ml-2 mt-1 space-y-1">
-                  <li class="text-xs opacity-60">
-                    <a
-                      href="https://grafana.com/grafana/dashboards/21308-http/"
-                      target="_blank"
-                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
-                      >Spring Boot HTTP (10,905 downloads)</a
-                    >
-                  </li>
-                  <li class="text-xs opacity-60">
-                    <a
-                      href="https://grafana.com/grafana/dashboards/21303-cache/"
-                      target="_blank"
-                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
-                      >Spring Boot Cache (10,178 downloads)</a
-                    >
-                  </li>
-                  <li class="text-xs opacity-60">
-                    <a
-                      href="https://grafana.com/grafana/dashboards/21307-circuit-breaker/"
-                      target="_blank"
-                      class="text-blue-600 dark:text-blue-400 hover:underline hover:opacity-100 transition-opacity"
-                      >Spring Boot Circuit Breaker (802 downloads)</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </article>
-      </section>
+      <h2 class="about-section-label">Side activities</h2>
+      <ul class="about-rows">
+        {
+          activities.map((a) => (
+            <li class="about-row">
+              <div class="about-row-date">{a.date}</div>
+              <div>
+                <div class="about-row-title">{a.title}</div>
+                {a.desc && <div class="about-row-desc">{a.desc}</div>}
+                {a.note && <div class="about-row-note">{a.note}</div>}
+                {a.sublinks?.map((s) => (
+                  <a
+                    class="about-row-sublink"
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {s.label}
+                  </a>
+                ))}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2 class="about-section-label">Open source</h2>
+      <ul class="about-rows">
+        {
+          oss.map((a) => (
+            <li class="about-row">
+              <div class="about-row-date">{a.date}</div>
+              <div>
+                <div class="about-row-title">{a.title}</div>
+                {a.desc && <div class="about-row-desc">{a.desc}</div>}
+                {a.sublinks?.map((s) => (
+                  <a
+                    class="about-row-sublink"
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {s.label}
+                  </a>
+                ))}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     </div>
-  </Container>
+  </section>
 </PageLayout>
+
+<style>
+  .kws-page {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 16px var(--container-pad) 160px;
+  }
+
+  .about {
+    max-width: 656px;
+    margin: 0 auto;
+  }
+
+  .about-greeting {
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-semibold);
+    color: var(--fg-strong);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+    margin: var(--space-4) 0 0;
+  }
+  .about-greeting::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    right: 4px;
+    bottom: -2px;
+    height: 6px;
+    background: var(--stroke-url) no-repeat center / 100% 100%;
+    opacity: 0.55;
+  }
+
+  .about-intro {
+    margin-top: var(--space-4);
+  }
+  .about-intro p {
+    font-size: var(--fs-md);
+    line-height: 1.7;
+    color: var(--fg);
+    margin: 4px 0 0;
+  }
+
+  .about-section-label {
+    display: block;
+    font-size: var(--fs-sm);
+    color: var(--fg-strong);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin: var(--space-20) 0 var(--space-4);
+  }
+
+  .about-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .about-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    column-gap: var(--space-5);
+    align-items: baseline;
+    padding: 10px 0;
+  }
+
+  .about-row-date {
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+  }
+  .about-row-date-end {
+    display: block;
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+  }
+
+  .about-row-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .about-row-head img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .about-row-title {
+    font-size: var(--fs-md);
+    font-weight: var(--fw-medium);
+    color: var(--fg-strong);
+    letter-spacing: -0.005em;
+  }
+  .about-row-role {
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+  }
+  .about-row-desc {
+    font-size: var(--fs-sm);
+    color: var(--fg);
+    margin-top: 2px;
+    line-height: 1.55;
+  }
+  .about-row-note {
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    font-style: italic;
+    margin-top: 4px;
+  }
+  .about-row-sublink {
+    display: block;
+    position: relative;
+    padding-left: 12px;
+    font-size: var(--fs-sm);
+    color: var(--ink-blue);
+    margin-top: 4px;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 2px;
+    transition: text-decoration-color var(--dur-medium) var(--ease-out);
+  }
+  .about-row-sublink::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--fg-muted);
+  }
+  .about-row-sublink:hover {
+    text-decoration-color: var(--ink-blue);
+  }
+
+  @media (max-width: 520px) {
+    .kws-page {
+      padding: 12px 22px 120px;
+    }
+    .about-row {
+      grid-template-columns: 88px 1fr;
+      column-gap: var(--space-4);
+    }
+  }
+</style>
