@@ -5,6 +5,7 @@
 html {
   overflow-y: scroll;
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 html.dark,

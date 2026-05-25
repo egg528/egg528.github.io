@@ -299,7 +299,7 @@ const tocLabel = locale === "ko" ? "목차" : "Contents";
 
     const linkBySlug = new Map<string, HTMLAnchorElement>();
     links.forEach((a) => {
-      const slug = a.getAttribute("href")?.slice(1);
+      const slug = decodeURIComponent(a.getAttribute("href")?.slice(1) ?? "");
       if (slug) linkBySlug.set(slug, a);
     });
 
@@ -316,9 +316,13 @@ const tocLabel = locale === "ko" ? "목차" : "Contents";
       lastActive = slug;
     }
 
+    let suppress = false;
+    let suppressTimer: number | undefined;
+
     const visible = new Set<string>();
     const observer = new IntersectionObserver(
       (entries) => {
+        if (suppress) return;
         for (const entry of entries) {
           if (entry.isIntersecting) visible.add(entry.target.id);
           else visible.delete(entry.target.id);
@@ -327,10 +331,31 @@ const tocLabel = locale === "ko" ? "목차" : "Contents";
         const first = headings.find((h) => visible.has(h.id));
         if (first) setActive(first.id);
       },
-      { rootMargin: "-80px 0px -60% 0px", threshold: 0 },
+      { rootMargin: "-96px 0px -60% 0px", threshold: 0 },
     );
     headings.forEach((h) => observer.observe(h));
     setActive(headings[0].id);
+
+    toc.addEventListener("click", (event) => {
+      const link = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>(
+        "a[href^='#']",
+      );
+      if (!link) return;
+      const slug = decodeURIComponent(link.hash.slice(1));
+      if (!document.getElementById(slug)) return;
+      setActive(slug);
+      suppress = true;
+      window.clearTimeout(suppressTimer);
+      suppressTimer = window.setTimeout(() => {
+        suppress = false;
+      }, 700);
+    });
+
+    document.addEventListener(
+      "astro:before-swap",
+      () => observer.disconnect(),
+      { once: true },
+    );
   }
 
   document.addEventListener("DOMContentLoaded", setupTocActive);
