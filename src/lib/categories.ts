@@ -23,6 +23,10 @@ export const TIL_CATEGORIES = {
   "conference": {
       ko: "컨퍼런스",
       en: "Conference"
+  },
+  "lecture": {
+      ko: "강의",
+      en: "Lecture"
   }
 } as const;
 
